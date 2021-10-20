@@ -55,7 +55,7 @@ export const colorsDark: BaseColors = {
     inputBackground: '#404040',
     textPrimary: '#F5F5F5',
     textSecondary: '#D4D4D4',
-    textRed: '#EF4444',
+    textRed: '#F87171',
     textBlue: '#60A5FA',
     textGreen: '#4ADE80',
     iconPrimary: '#E5E5E5',

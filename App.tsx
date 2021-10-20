@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native'
-import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack'
-import React from 'react'
+import { NavigationContainerRef } from '@react-navigation/core'
+import React, { useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import LauncherScreen from './screens/LauncherScreen'
 import { Host } from 'react-native-portalize'
@@ -11,11 +11,19 @@ import DepartureScreen from './screens/DepartureScreen'
 import StatusDetailScreen from './screens/StatusDetailScreen'
 import { AppProvider, useApp } from './provider/appProvider'
 import WelcomeScreen from './screens/WelcomeScreen'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import SystemNavigationBar from 'react-native-system-navigation-bar'
+import { Theme } from './assets/styles/stylesBase'
 
-const Stack = createStackNavigator()
+const Stack = createNativeStackNavigator()
+
 
 const NavigatorBase = () => {
-	const { colors } = useApp()
+	const { colors, theme } = useApp()
+
+	useEffect(() => {
+		SystemNavigationBar.setNavigationColor(colors.tabBarBackground, theme === Theme.dark)
+	}, [colors, theme])
 
 	return (
 		<Host>
@@ -25,8 +33,9 @@ const NavigatorBase = () => {
 						initialRouteName="Launcher"
 						screenOptions={{
 							headerTitleAlign: 'center',
-							cardStyle: { opacity: 1 },
-						}}>
+							headerBackTitleVisible: false
+						}}
+						>
 						<Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
 						<Stack.Screen name="Launcher" component={LauncherScreen} options={{ headerShown: false }} />
 						<Stack.Screen
@@ -43,10 +52,10 @@ const NavigatorBase = () => {
 							component={LocationModalScreen}
 							options={{
 								title: 'Von ...',
-								cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
-								headerStyle: { height: 42, backgroundColor: colors.cardBackground, elevation: 0 },
+								headerStyle: { backgroundColor: colors.cardBackground },
 								headerTintColor: colors.textPrimary,
 								headerTitleStyle: { fontSize: 18 },
+								
 							}}
 						/>
 						<Stack.Screen
@@ -66,7 +75,7 @@ const NavigatorBase = () => {
 								title: '',
 								headerStyle: { backgroundColor: '#C72730' },
 								headerTintColor: '#ffffff',
-								headerTitleStyle: { fontSize: 15 },
+								headerTitleStyle: { fontSize: 15 }
 							}}
 						/>
 						<Stack.Screen

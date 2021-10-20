@@ -1,8 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, { useRef } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, StatusBar, StyleSheet, View } from 'react-native'
 import { Modalize } from 'react-native-modalize'
 import LauncherTabBar from '../components/LauncherTabBar'
+import { useApp } from '../provider/appProvider'
 import { host, username } from '../temp'
 import EmptyScreen from './EmptyScreen'
 import GlobalDashboardScreen from './tabs/GlobalDashboardScreeen'
@@ -20,6 +21,7 @@ const Tab = createBottomTabNavigator()
 
 export default function LauncherScreen() {
 	const checkinModal = useRef<Modalize>(null)
+	const { colors } = useApp()
 
 	const onPressCheckin = () => {
 		checkinModal.current?.open()
@@ -27,6 +29,7 @@ export default function LauncherScreen() {
 
 	return (
 		<>
+			<StatusBar backgroundColor={ colors.accentColor } barStyle="light-content" />
 			<Tab.Navigator
 				initialRouteName="Dashboard"
 				tabBar={(props) => <LauncherTabBar {...props} onPressCheckin={onPressCheckin} />}

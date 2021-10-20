@@ -21,7 +21,7 @@ export default function TripScreen({ route, navigation }: Props) {
 	const styles = useMemo(() => tripScreenStyles(theme, colors), [theme])
 
 	const [departure] = useState((route.params as { departure: Departure }).departure)
-	const [trip, setTrip] = useState<Trip | null>(null)
+	const [trip, setTrip] = useState<Stopover[] | null>(null)
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -46,7 +46,19 @@ export default function TripScreen({ route, navigation }: Props) {
 
 	const loadTrip = async () => {
 		const trip = await getTrip(token, departure.tripId, departure.line.name, departure.station.id!)
-		setTrip(trip.data)
+
+		const input = [];
+
+		const minimumTimestamp = new Date(departure.plannedWhen)
+
+		for(const stopover of trip.data.stopovers) {
+			const departureTimestamp = new Date(stopover.departure)
+
+			if(departureTimestamp > minimumTimestamp)
+				input.push(stopover)
+		}
+
+		setTrip(input)
 	}
 
 	const onPressStopover = useCallback((stopover: Stopover) => {
@@ -105,7 +117,7 @@ export default function TripScreen({ route, navigation }: Props) {
 					)}
 				</>
 			}
-			data={trip?.stopovers ?? []}
+			data={trip ?? []}
 			keyExtractor={(item) => item.id.toString()}
 			renderItem={renderResultItem}
 		/>
