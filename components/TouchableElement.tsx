@@ -82,37 +82,29 @@ const TouchableElement: React.FC<TouchableElementProps> = ({
 		transform: [{ scale: buttonScale }],
 	}
 
-	if (Platform.OS === 'ios')
-		return (
-			<View style={[{ position: 'relative', justifyContent: 'center', alignSelf: 'stretch'}, style] }>
-				<AnimatedTouchableWithoutFeedback
-					onPressIn={onPressIn}
-					onPressOut={onPressOut}
-					onPress={onPress}
-					style={{ alignSelf: 'center', width: '100%', ...(pressIn ? animatedScaleStyle : {}) }}>
-					{children}
-				</AnimatedTouchableWithoutFeedback>
-				{backgroundColor && (
-					<Animated.View
-						pointerEvents="none"
-						style={{
-							position: 'absolute',
-							width: '100%',
-							height: '100%',
-							backgroundColor: backgroundColor,
-							zIndex: 1,
-							opacity: backgroundOpacity,
-						}}
-					/>
-				)}
-			</View>
-		)
 	return (
-		<TouchableNativeFeedback
-			background={backgroundColor ? TouchableNativeFeedback.Ripple(backgroundColor, false) : background}
-			onPress={onPress}>
-			{children}
-		</TouchableNativeFeedback>
+		<Animated.View style={[{ position: 'relative', justifyContent: 'center', alignSelf: 'stretch', ...(pressIn ? animatedScaleStyle : {})}, style] }>
+			<AnimatedTouchableWithoutFeedback
+				onPressIn={onPressIn}
+				onPressOut={onPressOut}
+				onPress={onPress}
+				style={{ alignSelf: 'center', width: '100%' }}>
+				{children}
+			</AnimatedTouchableWithoutFeedback>
+			{backgroundColor && (
+				<Animated.View
+					pointerEvents="none"
+					style={{
+						position: 'absolute',
+						width: '100%',
+						height: '100%',
+						backgroundColor: backgroundColor,
+						zIndex: 1,
+						opacity: backgroundOpacity,
+					}}
+				/>
+			)}
+		</Animated.View>
 	)
 }
 
