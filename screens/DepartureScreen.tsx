@@ -22,6 +22,7 @@ import { Portal } from 'react-native-portalize'
 import { EventRegister } from 'react-native-event-listeners'
 import { useApp } from '../provider/appProvider'
 import departureScreenStyles from '../assets/styles/screens/departureScreenStyles'
+import TouchableElement from '../components/TouchableElement'
 
 type TransportMethod = {
 	label: string
@@ -238,7 +239,7 @@ export default function DepartureScreen() {
 
 	const renderResultItem = ({ item }: { item: Departure }) => (
 		<View style={styles.resultItemHolder}>
-			<TouchableNativeFeedback
+			<TouchableElement
 				background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
 				onPress={() => onPressTrip(item)}>
 				<View style={styles.resultItem}>
@@ -264,12 +265,12 @@ export default function DepartureScreen() {
 						<Text style={styles.vehicleText}>{item.line.name}</Text>
 					</View>
 				</View>
-			</TouchableNativeFeedback>
+			</TouchableElement>
 		</View>
 	)
 
 	const renderTransportMethodItem = ({ item }: { item: TransportMethod }) => (
-		<TouchableNativeFeedback
+		<TouchableElement
 			background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
 			onPress={() => onSelectTransportMethod(item)}>
 			<View style={styles.modalItem}>
@@ -277,17 +278,17 @@ export default function DepartureScreen() {
 					{item.label}
 				</Text>
 			</View>
-		</TouchableNativeFeedback>
+		</TouchableElement>
 	)
 
 	const renderDateTimePickerItem = ({ item }: { item: DateTimePickerItem }) => (
-		<TouchableNativeFeedback
+		<TouchableElement
 			background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
 			onPress={() => onSelectDateTimePickerItem(item)}>
 			<View style={styles.modalItem}>
 				<Text style={styles.modalItemText}>{item.label}</Text>
 			</View>
-		</TouchableNativeFeedback>
+		</TouchableElement>
 	)
 
 	return (
@@ -300,7 +301,7 @@ export default function DepartureScreen() {
 					<>
 						<View style={styles.checkinHeader}>
 							<View style={styles.locationHolder}>
-								<TouchableNativeFeedback
+								<TouchableElement
 									background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
 									onPress={openLocationModal}>
 									<View style={styles.locationRow}>
@@ -308,7 +309,7 @@ export default function DepartureScreen() {
 											{location ? location.name : 'Bahnhof, Haltestelle ...'}
 										</Text>
 										<View style={styles.positionHolder}>
-											<TouchableNativeFeedback
+											<TouchableElement
 												background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
 												onPress={getLocation}>
 												<View style={styles.positionButton}>
@@ -322,13 +323,13 @@ export default function DepartureScreen() {
 														/>
 													)}
 												</View>
-											</TouchableNativeFeedback>
+											</TouchableElement>
 										</View>
 									</View>
-								</TouchableNativeFeedback>
+								</TouchableElement>
 							</View>
 							<View>
-								<TouchableNativeFeedback
+								<TouchableElement
 									background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
 									onPress={() => preDateTimeModal.current?.open()}>
 									<View style={styles.optionRow}>
@@ -337,8 +338,8 @@ export default function DepartureScreen() {
 										</View>
 										<Text style={styles.optionText}>{whenFormatted}</Text>
 									</View>
-								</TouchableNativeFeedback>
-								<TouchableNativeFeedback
+								</TouchableElement>
+								<TouchableElement
 									background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
 									onPress={() => transportMethodModal.current?.open()}>
 									<View style={styles.optionRow}>
@@ -347,7 +348,7 @@ export default function DepartureScreen() {
 										</View>
 										<Text style={styles.optionText}>{transportMethod.label}</Text>
 									</View>
-								</TouchableNativeFeedback>
+								</TouchableElement>
 							</View>
 						</View>
 						{location && departures == null ? (

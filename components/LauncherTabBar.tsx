@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import React, { useMemo } from 'react'
-import { StyleSheet, TouchableNativeFeedback, View } from 'react-native'
+import { SafeAreaView, StyleSheet, TouchableNativeFeedback, View } from 'react-native'
 import {
 	faChartPie as faChartPieLight,
 	faHome as faHomeLight,
@@ -19,6 +19,7 @@ import {
 } from '@fortawesome/pro-regular-svg-icons'
 import { useApp } from '../provider/appProvider'
 import launcherTabBarStyles from '../assets/styles/components/launcherTabBarStyles'
+import TouchableElement from './TouchableElement'
 
 type LauncherTabBarProps = BottomTabBarProps & {
 	onPressCheckin: () => void
@@ -26,63 +27,74 @@ type LauncherTabBarProps = BottomTabBarProps & {
 
 const LauncherTabBar: React.FC<LauncherTabBarProps> = ({ state, onPressCheckin, navigation }) => {
 	const { theme, colors } = useApp()
-	const styles = useMemo(() => launcherTabBarStyles(theme, colors), [theme]);
+	const styles = useMemo(() => launcherTabBarStyles(theme, colors), [theme])
 
 	return (
-		<View style={styles.container}>
-			{state.routes.map((route, index) => {
-				const selected = state.index === index
+		<View style={{ backgroundColor: colors.tabBarBackground }}>
+			<SafeAreaView>
+				<View style={styles.container}>
+					{state.routes.map((route, index) => {
+						const selected = state.index === index
 
-				const onPress = () => {
-					if (!selected) navigation.navigate(route.name)
-				}
+						const onPress = () => {
+							if (!selected) navigation.navigate(route.name)
+						}
 
-				let icon: IconDefinition = faQuestion
+						let icon: IconDefinition = faQuestion
 
-				switch (route.name) {
-					case 'Dashboard':
-						icon = selected ? faHomeRegular : faHomeLight
-						break
-					case 'TopTraeweller':
-						icon = selected ? faTrophyRegular : faTrophyLight
-						break
-					case 'CheckInPlaceholder':
-						icon = faTrain
-						break
-					case 'OnTheWay':
-						icon = selected ? faRouteRegular : faRouteLight
-						break
-					case 'Statistics':
-						icon = selected ? faChartPieRegular : faChartPieLight
-						break
-				}
+						switch (route.name) {
+							case 'Dashboard':
+								icon = selected ? faHomeRegular : faHomeLight
+								break
+							case 'TopTraeweller':
+								icon = selected ? faTrophyRegular : faTrophyLight
+								break
+							case 'CheckInPlaceholder':
+								icon = faTrain
+								break
+							case 'OnTheWay':
+								icon = selected ? faRouteRegular : faRouteLight
+								break
+							case 'Statistics':
+								icon = selected ? faChartPieRegular : faChartPieLight
+								break
+						}
 
-				if (route.name === 'CheckInPlaceholder')
-					return (
-						<View style={styles.checkinItemContainer} key={route.name}>
-							<View style={styles.checkinItemHolder}>
-								<TouchableNativeFeedback
-									onPress={() => navigation.navigate('Departure')}
-									background={TouchableNativeFeedback.Ripple('#3e3e3e', true)}>
-									<View style={styles.checkinItem}>
-										<FontAwesomeIcon icon={icon} size={20} color={'#ffffff'} />
+						if (route.name === 'CheckInPlaceholder')
+							return (
+								<View style={styles.checkinItemContainer} key={route.name}>
+									<View style={styles.checkinItemHolder}>
+										<TouchableElement
+											feedback={true}
+											onPress={() => navigation.navigate('Departure')}
+											backgroundColor="#3e3e3e">
+											<View style={styles.checkinItem}>
+												<FontAwesomeIcon icon={icon} size={20} color={'#ffffff'} />
+											</View>
+										</TouchableElement>
 									</View>
-								</TouchableNativeFeedback>
-							</View>
-						</View>
-					)
+								</View>
+							)
 
-				return (
-					<TouchableNativeFeedback
-						key={route.name}
-						onPress={onPress}
-						background={TouchableNativeFeedback.Ripple(colors.tabBarTouch, true)}>
-						<View style={styles.item}>
-							<FontAwesomeIcon icon={icon} size={22} color={selected ? colors.tabBarIconPrimary : colors.tabBarIconSecondary} />
-						</View>
-					</TouchableNativeFeedback>
-				)
-			})}
+						return (
+							<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} key={route.name}>
+								<TouchableElement
+									style={{ flex: 1 }}
+									onPress={onPress}
+									backgroundColor={colors.tabBarTouch}>
+									<View style={styles.item}>
+										<FontAwesomeIcon
+											icon={icon}
+											size={22}
+											color={selected ? colors.tabBarIconPrimary : colors.tabBarIconSecondary}
+										/>
+									</View>
+								</TouchableElement>
+							</View>
+						)
+					})}
+				</View>
+			</SafeAreaView>
 		</View>
 	)
 }

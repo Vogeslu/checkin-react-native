@@ -124,6 +124,7 @@ const departureScreenStyles = (theme: Theme, colors: BaseColors) => {
         vehicleText: {
             fontSize: 15,
             marginLeft: 4,
+            color: colors.textPrimary
         },
         modalItem: {
             alignItems: 'center',

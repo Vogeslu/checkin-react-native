@@ -17,6 +17,7 @@ import { getDuration, getTime } from '../lib/utilities'
 import statusStyles from '../assets/styles/components/statusStyles'
 import { useApp } from '../provider/appProvider'
 import { Theme } from '../assets/styles/stylesBase'
+import TouchableElement from './TouchableElement'
 
 type StatusProps = {
 	status: StatusType
@@ -25,7 +26,7 @@ type StatusProps = {
 
 const Status: React.FC<StatusProps> = ({ status, onPress }) => {
 	const { theme, colors } = useApp()
-	const styles = useMemo(() => statusStyles(theme, colors), [theme]);
+	const styles = useMemo(() => statusStyles(theme, colors), [theme])
 
 	function getTransportIcon(data: string) {
 		switch (data) {
@@ -36,9 +37,7 @@ const Status: React.FC<StatusProps> = ({ status, onPress }) => {
 					<Image source={require('../assets/suburban.png')} style={styles.dataImage} resizeMode={'cover'} />
 				)
 			case 'subway':
-				return (
-					<Image source={require('../assets/subway.png')} style={styles.dataImage} resizeMode={'cover'} />
-				)
+				return <Image source={require('../assets/subway.png')} style={styles.dataImage} resizeMode={'cover'} />
 			case 'tram':
 				return <Image source={require('../assets/tram.png')} style={styles.dataImage} resizeMode={'cover'} />
 			default:
@@ -88,9 +87,7 @@ const Status: React.FC<StatusProps> = ({ status, onPress }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.cardHolder}>
-				<TouchableNativeFeedback
-					background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
-					onPress={onPress}>
+				<TouchableElement backgroundColor={colors.cardTouch} onPress={onPress}>
 					<View style={styles.card}>
 						<View style={styles.top}>
 							<View style={styles.graph}>
@@ -132,22 +129,34 @@ const Status: React.FC<StatusProps> = ({ status, onPress }) => {
 											</Text>
 										</View>
 										<View style={styles.dataItem}>
-											<FontAwesomeIcon icon={faStopwatch} size={13} color={colors.iconSecondary} />
+											<FontAwesomeIcon
+												icon={faStopwatch}
+												size={13}
+												color={colors.iconSecondary}
+											/>
 											<Text style={styles.dataText}>{getDuration(status.train.duration)}</Text>
 										</View>
 									</View>
 									{status.event && (
 										<View style={styles.dataItem}>
-											<FontAwesomeIcon icon={faCalendarDay} size={13} color={colors.iconSecondary} />
+											<FontAwesomeIcon
+												icon={faCalendarDay}
+												size={13}
+												color={colors.iconSecondary}
+											/>
 											<Text style={styles.dataTextBlue}>{status.event.name}</Text>
 										</View>
 									)}
-									{ status.body.length > 0 && (
+									{status.body.length > 0 && (
 										<View style={styles.dataItem}>
-											<FontAwesomeIcon icon={faQuoteLeft} size={13} color={colors.iconSecondary} />
+											<FontAwesomeIcon
+												icon={faQuoteLeft}
+												size={13}
+												color={colors.iconSecondary}
+											/>
 											<Text style={styles.dataText}>{status.body}</Text>
 										</View>
-									) }
+									)}
 								</View>
 								<View style={styles.stationRow}>
 									<Text style={styles.stationName}>{status.train.destination.name}</Text>
@@ -174,7 +183,7 @@ const Status: React.FC<StatusProps> = ({ status, onPress }) => {
 						</View>
 						<View style={styles.bottom}>
 							<View style={styles.likeHolder}>
-								<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}>
+								<TouchableElement backgroundColor={colors.cardTouch}>
 									<View style={styles.likeRow}>
 										<FontAwesomeIcon
 											icon={status.liked ? faStarSolid : faStarRegular}
@@ -183,18 +192,15 @@ const Status: React.FC<StatusProps> = ({ status, onPress }) => {
 										/>
 										{status.likes > 0 && <Text style={styles.likeText}>{status.likes}</Text>}
 									</View>
-								</TouchableNativeFeedback>
+								</TouchableElement>
 							</View>
 							<View style={styles.bottomRight}>
 								<FontAwesomeIcon icon={faGlobeAmericas} size={13} color={colors.iconPrimary} />
 								<View style={styles.bottomRightText}>
 									<View style={styles.bottomRightTextHolder}>
-										<TouchableNativeFeedback
-											background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}>
-											<View>
-												<Text style={styles.bottomRightTextOuter}>{status.username}</Text>
-											</View>
-										</TouchableNativeFeedback>
+										<View>
+											<Text style={styles.bottomRightTextOuter}>{status.username}</Text>
+										</View>
 									</View>
 									<Text style={styles.bottomRightTextCenter}> um </Text>
 									<Text style={styles.bottomRightTextOuter}>{getTime(status.createdAt)}</Text>
@@ -202,7 +208,7 @@ const Status: React.FC<StatusProps> = ({ status, onPress }) => {
 							</View>
 						</View>
 					</View>
-				</TouchableNativeFeedback>
+				</TouchableElement>
 			</View>
 		</View>
 	)

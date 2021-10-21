@@ -5,8 +5,13 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, TouchableNativeFeedback, View } from 'react-native'
 import { EventRegister } from 'react-native-event-listeners'
 import locationModalScreenStyles from '../../assets/styles/screens/modals/locationModalScreenStyles'
+import TouchableElement from '../../components/TouchableElement'
 import { getGeoLocation } from '../../lib/location'
-import { getAutocompleteStations, getNearbyStations, getV0LatestStations } from '../../lib/traewelling/categories/trains'
+import {
+	getAutocompleteStations,
+	getNearbyStations,
+	getV0LatestStations,
+} from '../../lib/traewelling/categories/trains'
 import { QueryStation } from '../../lib/traewelling/types/stationTypes'
 import { useApp } from '../../provider/appProvider'
 import { token } from '../../temp'
@@ -35,8 +40,7 @@ export default function LocationModalScreen() {
 		const results = await getV0LatestStations(token)
 		const stations: QueryStation[] = []
 
-		for(const [ibnr, station] of Object.entries(results))
-			stations.push(station)
+		for (const [ibnr, station] of Object.entries(results)) stations.push(station)
 
 		setLatestStations(stations)
 	}
@@ -99,35 +103,44 @@ export default function LocationModalScreen() {
 					style={styles.input}
 					placeholderTextColor={colors.textSecondary}
 				/>
-				{ loadingResults && <ActivityIndicator color={colors.accentColor} /> }
+				{loadingResults && <ActivityIndicator color={colors.accentColor} />}
 			</View>
 			<View style={{ flex: 1 }}>
 				<ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps="always">
 					{textValue.length === 0 && (
-							<TouchableNativeFeedback
-							background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)} onPress={getLocation}>
-								<View style={styles.item}>
-									<View style={styles.itemIcon}>
-										{loadingGeoLocation ? (
-											<ActivityIndicator />
-										) : (
-											<FontAwesomeIcon icon={faLocationCircle} color={colors.iconSecondary} size={16} />
-										)}
-									</View>
-									<View style={{ flex: 1 }}>
-										<Text style={styles.itemText}>Aktuelle Position</Text>
-									</View>
-									<TouchableNativeFeedback>
-										<View style={styles.expandIcon}>
-											<FontAwesomeIcon icon={faChevronRight} color={colors.iconSecondary} size={12} />
-										</View>
-									</TouchableNativeFeedback>
+						<TouchableElement
+							feedback={true}
+							pressIn={false}
+							background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
+							onPress={getLocation}>
+							<View style={styles.item}>
+								<View style={styles.itemIcon}>
+									{loadingGeoLocation ? (
+										<ActivityIndicator />
+									) : (
+										<FontAwesomeIcon
+											icon={faLocationCircle}
+											color={colors.iconSecondary}
+											size={16}
+										/>
+									)}
 								</View>
-							</TouchableNativeFeedback>
+								<View style={{ flex: 1 }}>
+									<Text style={styles.itemText}>Aktuelle Position</Text>
+								</View>
+								<View style={styles.expandIcon}>
+									<FontAwesomeIcon icon={faChevronRight} color={colors.iconSecondary} size={12} />
+								</View>
+							</View>
+						</TouchableElement>
 					)}
 					{results.map((item, index) => (
-						<TouchableNativeFeedback
-						background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)} key={index} onPress={() => dismissModal(item)}>
+						<TouchableElement
+							feedback={true}
+							pressIn={false}
+							background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
+							key={index}
+							onPress={() => dismissModal(item)}>
 							<View style={styles.item}>
 								<View style={styles.itemIcon}>
 									<FontAwesomeIcon icon={faSign} color={colors.iconSecondary} size={16} />
@@ -136,11 +149,18 @@ export default function LocationModalScreen() {
 									<Text style={styles.itemText}>{item.name}</Text>
 								</View>
 							</View>
-						</TouchableNativeFeedback>
+						</TouchableElement>
 					))}
-					{ results.length === 0 && latestStations.filter(item => item.name.toLowerCase().indexOf(textValue.toLowerCase()) !== -1).map((item, index) => (
-								<TouchableNativeFeedback
-								background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)} key={index} onPress={() => dismissModal(item)}>
+					{results.length === 0 &&
+						latestStations
+							.filter((item) => item.name.toLowerCase().indexOf(textValue.toLowerCase()) !== -1)
+							.map((item, index) => (
+								<TouchableElement
+									feedback={true}
+									pressIn={false}
+									background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
+									key={index}
+									onPress={() => dismissModal(item)}>
 									<View style={styles.item}>
 										<View style={styles.itemIcon}>
 											<FontAwesomeIcon icon={faClock} color={colors.iconSecondary} size={16} />
@@ -149,7 +169,7 @@ export default function LocationModalScreen() {
 											<Text style={styles.itemText}>{item.name}</Text>
 										</View>
 									</View>
-								</TouchableNativeFeedback>
+								</TouchableElement>
 							))}
 				</ScrollView>
 			</View>

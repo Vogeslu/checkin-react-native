@@ -9,6 +9,7 @@ import { Stopover } from '../lib/traewelling/types/extraTypes'
 import { getTime } from '../lib/utilities'
 import { useApp } from '../provider/appProvider'
 import tripScreenStyles from '../assets/styles/screens/tripScreenStyles'
+import TouchableElement from '../components/TouchableElement'
 
 type TripScreenParamList = {
 	Trip: { departure: Departure }
@@ -69,7 +70,7 @@ export default function TripScreen({ route, navigation }: Props) {
 	const renderResultItem = ({ item }: { item: Stopover }) => (
 		<View style={styles.resultItemContainer}>
 			<View style={styles.resultItemHolder}>
-				<TouchableNativeFeedback
+				<TouchableElement
 					background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
 					onPress={() => onPressStopover(item)}>
 					<View style={styles.resultItem}>
@@ -98,7 +99,7 @@ export default function TripScreen({ route, navigation }: Props) {
 							</View>
 						)}
 					</View>
-				</TouchableNativeFeedback>
+				</TouchableElement>
 			</View>
 		</View>
 	)

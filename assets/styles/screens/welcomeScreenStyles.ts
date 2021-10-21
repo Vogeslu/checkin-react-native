@@ -40,14 +40,14 @@ const welcomeScreenStyles = (theme: Theme, colors: BaseColors) => {
         },
         loginRow: {
             flexDirection: 'row',
-            alignItems: 'center'
+            alignItems: 'center',
+            height: 50
         },
         loginButton: {
             borderRadius: 8,
             backgroundColor: theme === Theme.dark ? '#D4D4D4' : '#171717',
             borderColor: theme === Theme.dark ? '#D4D4D4' : '#171717',
             borderWidth: 2,
-            minHeight: 50,
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center'

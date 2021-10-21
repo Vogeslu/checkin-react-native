@@ -11,7 +11,7 @@
 
 @end
 
-@implementation TraewellingTests
+@implementation CheckInTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
 {

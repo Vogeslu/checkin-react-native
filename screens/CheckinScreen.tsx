@@ -25,6 +25,7 @@ import { StackActions } from '@react-navigation/native'
 import { getStatus } from '../lib/traewelling/categories/status'
 import { useApp } from '../provider/appProvider'
 import checkinScreenStyles from '../assets/styles/screens/checkinScreenStyles'
+import TouchableElement from '../components/TouchableElement'
 
 type CheckinScreenParamList = {
 	Checkin: { departure: Departure; stopover: Stopover }
@@ -135,12 +136,12 @@ export default function CheckinScreen({ route, navigation }: Props) {
 	}, [])
 
 	const renderPickerItem = (item: PickerItem, type: string) => (
-		<TouchableNativeFeedback onPress={() => onSelectItem(item, type)}>
+		<TouchableElement onPress={() => onSelectItem(item, type)}>
 			<View style={styles.modalItem}>
 				<Text style={styles.modalItemText}>{item.label}</Text>
 				{item.extraLabel && <Text style={styles.modalItemSubText}>{item.extraLabel}</Text>}
 			</View>
-		</TouchableNativeFeedback>
+		</TouchableElement>
 	)
 
 	const onCheckin = async () => {
@@ -170,8 +171,7 @@ export default function CheckinScreen({ route, navigation }: Props) {
 			navigation.dispatch(StackActions.popToTop())
 			//@ts-ignore
 			navigation.push('StatusDetail', { status: status.data })
-		} catch (e) {
-		}
+		} catch (e) {}
 	}
 
 	return (
@@ -193,24 +193,30 @@ export default function CheckinScreen({ route, navigation }: Props) {
 					</View>
 				</View>
 				<View>
-					<TouchableNativeFeedback onPress={() => businessModal.current?.open()}>
+					<TouchableElement
+						background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
+						onPress={() => businessModal.current?.open()}>
 						<View style={styles.optionRow}>
 							<View style={styles.optionIcon}>
 								<FontAwesomeIcon icon={business.icon} color={colors.iconSecondary} />
 							</View>
 							<Text style={styles.optionText}>{business.label}</Text>
 						</View>
-					</TouchableNativeFeedback>
-					<TouchableNativeFeedback onPress={() => visibilityModal.current?.open()}>
+					</TouchableElement>
+					<TouchableElement
+						background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
+						onPress={() => visibilityModal.current?.open()}>
 						<View style={styles.optionRow}>
 							<View style={styles.optionIcon}>
 								<FontAwesomeIcon icon={visibility.icon} color={colors.iconSecondary} />
 							</View>
 							<Text style={styles.optionText}>{visibility.label}</Text>
 						</View>
-					</TouchableNativeFeedback>
+					</TouchableElement>
 					<View style={{ marginTop: 15 }} />
-					<TouchableNativeFeedback onPress={() => setTweet((current) => !current)}>
+					<TouchableElement
+						background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
+						onPress={() => setTweet((current) => !current)}>
 						<View style={styles.optionRow}>
 							<View style={styles.optionIcon}>
 								<FontAwesomeIcon icon={faTwitter} color={colors.iconSecondary} />
@@ -218,8 +224,10 @@ export default function CheckinScreen({ route, navigation }: Props) {
 							<Text style={styles.optionText}>Auf Twitter posten</Text>
 							{tweet && <FontAwesomeIcon icon={faCheck} color={colors.iconPrimary} size={14} />}
 						</View>
-					</TouchableNativeFeedback>
-					<TouchableNativeFeedback onPress={() => setToot((current) => !current)}>
+					</TouchableElement>
+					<TouchableElement
+						background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
+						onPress={() => setToot((current) => !current)}>
 						<View style={styles.optionRow}>
 							<View style={styles.optionIcon}>
 								<FontAwesomeIcon icon={faMastodon} color={colors.iconSecondary} />
@@ -227,15 +235,15 @@ export default function CheckinScreen({ route, navigation }: Props) {
 							<Text style={styles.optionText}>Auf Mastodon tooten</Text>
 							{toot && <FontAwesomeIcon icon={faCheck} color={colors.iconPrimary} size={14} />}
 						</View>
-					</TouchableNativeFeedback>
+					</TouchableElement>
 				</View>
 				<View style={styles.submitHolder}>
-					<TouchableNativeFeedback onPress={onCheckin}>
+					<TouchableElement onPress={onCheckin}>
 						<View style={styles.submit}>
 							{checkingIn && <ActivityIndicator color={'#ffffff'} style={{ marginRight: 8 }} />}
 							<Text style={styles.submitText}>Jetzt einchecken</Text>
 						</View>
-					</TouchableNativeFeedback>
+					</TouchableElement>
 				</View>
 			</View>
 			<Portal>

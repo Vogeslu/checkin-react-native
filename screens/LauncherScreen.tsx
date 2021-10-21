@@ -6,7 +6,7 @@ import LauncherTabBar from '../components/LauncherTabBar'
 import { useApp } from '../provider/appProvider'
 import { host, username } from '../temp'
 import EmptyScreen from './EmptyScreen'
-import GlobalDashboardScreen from './tabs/GlobalDashboardScreeen'
+import GlobalDashboardScreen from './tabs/GlobalDashboardScreen'
 
 const LauncherScreenStyles = StyleSheet.create({
 	profileImageHolder: {
@@ -28,7 +28,7 @@ export default function LauncherScreen() {
 	}
 
 	return (
-		<>
+		<View style={{ backgroundColor: colors.baseBackground, flex: 1 }}>
 			<StatusBar backgroundColor={ colors.accentColor } barStyle="light-content" />
 			<Tab.Navigator
 				initialRouteName="Dashboard"
@@ -37,6 +37,12 @@ export default function LauncherScreen() {
 					headerTitleAlign: 'center',
 					headerStyle: {
 						backgroundColor: '#C72730',
+						shadowOffset: {
+							height: 0,
+							width: 0
+						},
+						shadowRadius: 0,
+						elevation: 0
 					},
 					headerTitleStyle: {
 						color: 'white',
@@ -56,6 +62,6 @@ export default function LauncherScreen() {
 				<Tab.Screen name="OnTheWay" component={EmptyScreen} />
 				<Tab.Screen name="Statistics" component={EmptyScreen} />
 			</Tab.Navigator>
-		</>
+		</View>
 	)
 }

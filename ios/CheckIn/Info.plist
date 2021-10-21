@@ -51,5 +51,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>CheckIn requires GPS if user wants to use current location for checkin</string>
+  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>CheckIn requires GPS if user wants to use current location for checkin</string>
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>CheckIn requires GPS if user wants to use current location for checkin</string>
 </dict>
 </plist>

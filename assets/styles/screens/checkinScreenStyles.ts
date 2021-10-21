@@ -14,7 +14,7 @@ const checkinScreenStyles = (theme: Theme, colors: BaseColors) => {
             borderBottomColor: colors.cardBorder,
             borderBottomWidth: 1,
             paddingHorizontal: 16,
-            paddingVertical: 8,
+            paddingVertical: 8
         },
         bodyContainer: {},
         bodyLabel: {
@@ -42,7 +42,7 @@ const checkinScreenStyles = (theme: Theme, colors: BaseColors) => {
         optionRow: {
             flexDirection: 'row',
             alignItems: 'center',
-            padding: 8,
+            padding: 8
         },
         optionIcon: {
             width: 24,

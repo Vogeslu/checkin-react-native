@@ -20,6 +20,7 @@ import { getPolyline, getStopovers } from '../lib/traewelling/categories/status'
 import { useApp } from '../provider/appProvider'
 import statusDetailScreenStyles from '../assets/styles/screens/statusDetailScreenStyles'
 import { Theme } from '../assets/styles/stylesBase'
+import TouchableElement from '../components/TouchableElement'
 
 type StatusDetailScreenParamList = {
 	StatusDetail: { status: Status }
@@ -310,7 +311,7 @@ export default function StatusDetailScreen({ route, navigation }: Props) {
 				</View>
 				<View style={styles.bottom}>
 					<View style={styles.likeHolder}>
-						<TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}>
+						<TouchableElement background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}>
 							<View style={styles.likeRow}>
 								<FontAwesomeIcon
 									icon={status.liked ? faStarSolid : faStarRegular}
@@ -319,18 +320,18 @@ export default function StatusDetailScreen({ route, navigation }: Props) {
 								/>
 								{status.likes > 0 && <Text style={styles.likeText}>{status.likes}</Text>}
 							</View>
-						</TouchableNativeFeedback>
+						</TouchableElement>
 					</View>
 					<View style={styles.bottomRight}>
 						<FontAwesomeIcon icon={faGlobeAmericas} size={13} color={colors.iconPrimary} />
 						<View style={styles.bottomRightText}>
 							<View style={styles.bottomRightTextHolder}>
-								<TouchableNativeFeedback
+								<TouchableElement
 									background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}>
 									<View>
 										<Text style={styles.bottomRightTextOuter}>{status.username}</Text>
 									</View>
-								</TouchableNativeFeedback>
+								</TouchableElement>
 							</View>
 							<Text style={styles.bottomRightTextCenter}> um </Text>
 							<Text style={styles.bottomRightTextOuter}>{getTime(status.createdAt)}</Text>
