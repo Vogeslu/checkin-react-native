@@ -15,7 +15,6 @@ import { getGeoLocation } from '../lib/location'
 import { getDeparturesFromStation, getNearbyStations } from '../lib/traewelling/categories/trains'
 import { Departure, QueryStation } from '../lib/traewelling/types/stationTypes'
 import { getDateTime, getTime } from '../lib/utilities'
-import { token } from '../temp'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import { Modalize } from 'react-native-modalize'
 import { Portal } from 'react-native-portalize'
@@ -23,6 +22,7 @@ import { EventRegister } from 'react-native-event-listeners'
 import { useApp } from '../provider/appProvider'
 import departureScreenStyles from '../assets/styles/screens/departureScreenStyles'
 import TouchableElement from '../components/TouchableElement'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type TransportMethod = {
 	label: string
@@ -93,8 +93,10 @@ const dateTimePickerItems: DateTimePickerItem[] = [
 ]
 
 export default function DepartureScreen() {
-	const { theme, colors } = useApp()
+	const { theme, colors, token } = useApp()
 	const styles = useMemo(() => departureScreenStyles(theme, colors), [theme])
+
+	const { bottom, left, right } = useSafeAreaInsets()
 
 	const navigation = useNavigation()
 
@@ -142,7 +144,7 @@ export default function DepartureScreen() {
 
 		try {
 			const result = await getDeparturesFromStation(
-				token,
+				token!,
 				location.ibnr.toString(),
 				transportMethod.value === 'all' ? null : transportMethod.value,
 				when
@@ -195,7 +197,7 @@ export default function DepartureScreen() {
 
 		try {
 			const result = await getGeoLocation()
-			const response = await getNearbyStations(token, result.coords.latitude, result.coords.longitude, 20)
+			const response = await getNearbyStations(token!, result.coords.latitude, result.coords.longitude, 20)
 
 			setLocation(response.data)
 		} catch (e) {
@@ -238,11 +240,12 @@ export default function DepartureScreen() {
 	}
 
 	const renderResultItem = ({ item }: { item: Departure }) => (
-		<View style={styles.resultItemHolder}>
+		<View style={{ paddingHorizontal: 8 }}>
 			<TouchableElement
-				background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
+				style={styles.resultItem}
+				backgroundColor={colors.cardTouch}
 				onPress={() => onPressTrip(item)}>
-				<View style={styles.resultItem}>
+				<View>
 					<View style={styles.destinationRow}>
 						<Text style={styles.destination}>{item.direction}</Text>
 						<View style={styles.departureTimeContainer}>
@@ -271,7 +274,8 @@ export default function DepartureScreen() {
 
 	const renderTransportMethodItem = ({ item }: { item: TransportMethod }) => (
 		<TouchableElement
-			background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
+			pressIn={false}
+			backgroundColor={colors.cardTouch}
 			onPress={() => onSelectTransportMethod(item)}>
 			<View style={styles.modalItem}>
 				<Text style={[styles.modalItemText, { fontWeight: transportMethod === item ? '800' : 'normal' }]}>
@@ -283,7 +287,8 @@ export default function DepartureScreen() {
 
 	const renderDateTimePickerItem = ({ item }: { item: DateTimePickerItem }) => (
 		<TouchableElement
-			background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
+			pressIn={false}
+			backgroundColor={colors.cardTouch}
 			onPress={() => onSelectDateTimePickerItem(item)}>
 			<View style={styles.modalItem}>
 				<Text style={styles.modalItemText}>{item.label}</Text>
@@ -295,42 +300,44 @@ export default function DepartureScreen() {
 		<>
 			<FlatList
 				style={styles.checkinContainer}
+				contentContainerStyle={{ paddingBottom: bottom, paddingLeft: left, paddingRight: right }}
 				refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 				stickyHeaderIndices={[0]}
 				ListHeaderComponent={
 					<>
 						<View style={styles.checkinHeader}>
-							<View style={styles.locationHolder}>
-								<TouchableElement
-									background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
-									onPress={openLocationModal}>
-									<View style={styles.locationRow}>
-										<Text style={styles.locationText}>
-											{location ? location.name : 'Bahnhof, Haltestelle ...'}
-										</Text>
-										<View style={styles.positionHolder}>
-											<TouchableElement
-												background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
-												onPress={getLocation}>
-												<View style={styles.positionButton}>
-													{loadingGeoLocation ? (
-														<ActivityIndicator color={colors.accentColor} />
-													) : (
-														<FontAwesomeIcon
-															icon={faLocationCircle}
-															color={colors.iconPrimary}
-															size={18}
-														/>
-													)}
-												</View>
-											</TouchableElement>
-										</View>
+							<TouchableElement
+								style={styles.locationHolder}
+								backgroundColor={colors.cardTouch}
+								onPress={openLocationModal}>
+								<View style={styles.locationRow}>
+									<Text style={styles.locationText}>
+										{location ? location.name : 'Bahnhof, Haltestelle ...'}
+									</Text>
+									<View style={styles.positionHolder}>
+										<TouchableElement
+											pressIn={false}
+											backgroundColor={colors.cardTouch}
+											onPress={getLocation}>
+											<View style={styles.positionButton}>
+												{loadingGeoLocation ? (
+													<ActivityIndicator color={colors.accentColor} />
+												) : (
+													<FontAwesomeIcon
+														icon={faLocationCircle}
+														color={colors.iconPrimary}
+														size={18}
+													/>
+												)}
+											</View>
+										</TouchableElement>
 									</View>
-								</TouchableElement>
-							</View>
+								</View>
+							</TouchableElement>
 							<View>
 								<TouchableElement
-									background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
+									backgroundColor={colors.cardTouch}
+									pressIn={false}
 									onPress={() => preDateTimeModal.current?.open()}>
 									<View style={styles.optionRow}>
 										<View style={styles.optionIcon}>
@@ -340,7 +347,8 @@ export default function DepartureScreen() {
 									</View>
 								</TouchableElement>
 								<TouchableElement
-									background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
+									backgroundColor={colors.cardTouch}
+									pressIn={false}
 									onPress={() => transportMethodModal.current?.open()}>
 									<View style={styles.optionRow}>
 										<View style={styles.optionIcon}>

@@ -6,10 +6,9 @@ import { dashboardGlobal } from '../../lib/traewelling/categories/extra';
 import { Status as StatusType } from '../../lib/traewelling/types/extraTypes';
 import { DashboardResponse } from '../../lib/traewelling/types/responseTypes';
 import { useApp } from '../../provider/appProvider';
-import { token } from '../../temp';
 
 export default function GlobalDashboardScreen() {
-	const { theme, colors } = useApp()
+	const { theme, colors, token } = useApp()
 
 	const [refreshing, setRefreshing] = useState(false)
     const [dashboard, setDashboard] = useState<DashboardResponse | null>(null)
@@ -21,8 +20,12 @@ export default function GlobalDashboardScreen() {
     }, [])
 
     const loadDashboard = async () => {
-        const response = await dashboardGlobal(token)
-        setDashboard(response)
+        try {
+            const response = await dashboardGlobal(token!)
+            setDashboard(response)
+        } catch(e) {
+            console.log(e)
+        }
     }
 
 	const onRefresh = useCallback(async () => {

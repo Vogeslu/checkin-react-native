@@ -40,15 +40,20 @@ const welcomeScreenStyles = (theme: Theme, colors: BaseColors) => {
         },
         loginRow: {
             flexDirection: 'row',
-            alignItems: 'center',
-            height: 50
+            alignItems: 'center'
         },
         loginButton: {
+            overflow: 'hidden',
             borderRadius: 8,
             backgroundColor: theme === Theme.dark ? '#D4D4D4' : '#171717',
             borderColor: theme === Theme.dark ? '#D4D4D4' : '#171717',
             borderWidth: 2,
             flex: 1,
+            height: 50
+        },
+        innerLoginButton: {
+            flex: 1,
+            width: '100%',
             alignItems: 'center',
             justifyContent: 'center'
         },
@@ -79,11 +84,19 @@ const welcomeScreenStyles = (theme: Theme, colors: BaseColors) => {
             maxWidth: '100%'
         },
         socialMediaButton: {
-            height: 46,
             flexDirection: 'row',
             alignItems: 'center',
-            paddingHorizontal: 15,
-            borderRadius: 8
+            borderRadius: 8,
+            overflow: 'hidden'
+        },
+        innerSocialMediaButton: {
+            height: 46,
+            flex: 1,
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'row',
+            paddingHorizontal: 15
         },
         socialMediaButtonIconHolder: {
             width: 30
@@ -91,10 +104,6 @@ const welcomeScreenStyles = (theme: Theme, colors: BaseColors) => {
         socialMediaButtonText: {
             color: 'white',
             fontSize: 14
-        },
-        buttonHolder: {
-            borderRadius: 8,
-            overflow: 'hidden'
         }
     })
 }

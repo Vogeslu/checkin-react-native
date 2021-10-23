@@ -13,13 +13,12 @@ const tripScreenStyles = (theme: Theme, colors: BaseColors) => {
             marginBottom: 8,
             paddingHorizontal: 8,
         },
-        resultItemHolder: {
-            borderRadius: 6,
-            overflow: 'hidden',
-        },
         resultItem: {
             backgroundColor: colors.cardBackground,
             borderRadius: 6,
+            overflow: 'hidden',
+        },
+        resultItemInner: {
             flexDirection: 'row',
             alignItems: 'flex-start',
             paddingHorizontal: 12,

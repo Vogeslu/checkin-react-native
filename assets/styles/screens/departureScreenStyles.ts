@@ -78,15 +78,11 @@ const departureScreenStyles = (theme: Theme, colors: BaseColors) => {
         resultScrollView: {
             flex: 1,
         },
-        resultItemHolder: {
+        resultItem: {
             borderRadius: 6,
             overflow: 'hidden',
             marginBottom: 8,
-            paddingHorizontal: 8,
-        },
-        resultItem: {
             backgroundColor: colors.cardBackground,
-            borderRadius: 6,
         },
         destinationRow: {
             flexDirection: 'row',

@@ -19,7 +19,8 @@ const locationModalScreenStyles = (theme: Theme, colors: BaseColors) => {
         input: {
             flex: 1,
             height: 40,
-            paddingStart: 12
+            paddingStart: 12,
+            color: colors.textPrimary
         },
         item: {
             backgroundColor: colors.cardBackground,

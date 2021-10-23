@@ -14,81 +14,104 @@ import WelcomeScreen from './screens/WelcomeScreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import SystemNavigationBar from 'react-native-system-navigation-bar'
 import { Theme } from './assets/styles/stylesBase'
+import LoginScreen from './screens/authentication/LoginScreen'
+import RegistrationScreen from './screens/authentication/RegistrationScreen'
 
 const Stack = createNativeStackNavigator()
 
-
 const NavigatorBase = () => {
-	const { colors, theme } = useApp()
-
-	useEffect(() => {
-		SystemNavigationBar.setNavigationColor(colors.tabBarBackground, theme === Theme.dark)
-	}, [colors, theme])
+	const { colors, isReady, token } = useApp()
 
 	return (
 		<Host>
 			<View style={{ flex: 1, backgroundColor: colors.baseBackground }}>
-				<NavigationContainer>
-					<Stack.Navigator
-						initialRouteName="Launcher"
-						screenOptions={{
-							headerTitleAlign: 'center',
-							headerBackTitleVisible: false
-						}}
-						>
-						<Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
-						<Stack.Screen name="Launcher" component={LauncherScreen} options={{ headerShown: false }} />
-						<Stack.Screen
-							name="Departure"
-							component={DepartureScreen}
-							options={{
-								title: 'Einchecken',
-								headerStyle: { backgroundColor: '#C72730' },
-								headerTintColor: '#ffffff',
-							}}
-						/>
-						<Stack.Screen
-							name="LocationModal"
-							component={LocationModalScreen}
-							options={{
-								title: 'Von ...',
-								headerStyle: { backgroundColor: colors.cardBackground },
-								headerTintColor: colors.textPrimary,
-								headerTitleStyle: { fontSize: 18 },
-								
-							}}
-						/>
-						<Stack.Screen
-							name="Trip"
-							component={TripScreen}
-							options={{
-								title: '',
-								headerStyle: { backgroundColor: '#C72730' },
-								headerTintColor: '#ffffff',
-								headerTitleStyle: { fontSize: 15 },
-							}}
-						/>
-						<Stack.Screen
-							name="Checkin"
-							component={CheckinScreen}
-							options={{
-								title: '',
-								headerStyle: { backgroundColor: '#C72730' },
-								headerTintColor: '#ffffff',
-								headerTitleStyle: { fontSize: 15 }
-							}}
-						/>
-						<Stack.Screen
-							name="StatusDetail"
-							component={StatusDetailScreen}
-							options={{
-								headerStyle: { backgroundColor: '#C72730' },
-								headerTintColor: '#ffffff',
-								headerTitleStyle: { fontSize: 15 },
-							}}
-						/>
-					</Stack.Navigator>
-				</NavigationContainer>
+				{isReady && (
+					<NavigationContainer>
+						<Stack.Navigator
+							initialRouteName={token ? 'Launcher' : 'Token'}
+							screenOptions={{
+								headerTitleAlign: 'center',
+								headerBackTitleVisible: false,
+							}}>
+							<Stack.Screen
+								name="Welcome"
+								component={WelcomeScreen}
+								options={{ headerShown: false, orientation: 'portrait' }}
+							/>
+							<Stack.Screen
+								name="Login"
+								component={LoginScreen}
+								options={{
+									headerShown: true,
+									orientation: 'portrait',
+									headerStyle: { backgroundColor: '#C72730' },
+									title: 'Anmeldung',
+									headerTintColor: '#ffffff',
+								}}
+							/>
+							<Stack.Screen
+								name="Registration"
+								component={RegistrationScreen}
+								options={{
+									headerShown: true,
+									orientation: 'portrait',
+									headerStyle: { backgroundColor: '#C72730' },
+									title: 'Registrierung',
+									headerTintColor: '#ffffff',
+								}}
+							/>
+							<Stack.Screen name="Launcher" component={LauncherScreen} options={{ headerShown: false }} />
+							<Stack.Screen
+								name="Departure"
+								component={DepartureScreen}
+								options={{
+									title: 'Einchecken',
+									headerStyle: { backgroundColor: '#C72730' },
+									headerTintColor: '#ffffff',
+								}}
+							/>
+							<Stack.Screen
+								name="LocationModal"
+								component={LocationModalScreen}
+								options={{
+									title: 'Von ...',
+									headerStyle: { backgroundColor: colors.cardBackground },
+									headerTintColor: colors.textPrimary,
+									headerTitleStyle: { fontSize: 18 },
+								}}
+							/>
+							<Stack.Screen
+								name="Trip"
+								component={TripScreen}
+								options={{
+									title: '',
+									headerStyle: { backgroundColor: '#C72730' },
+									headerTintColor: '#ffffff',
+									headerTitleStyle: { fontSize: 15 },
+								}}
+							/>
+							<Stack.Screen
+								name="Checkin"
+								component={CheckinScreen}
+								options={{
+									title: '',
+									headerStyle: { backgroundColor: '#C72730' },
+									headerTintColor: '#ffffff',
+									headerTitleStyle: { fontSize: 15 },
+								}}
+							/>
+							<Stack.Screen
+								name="StatusDetail"
+								component={StatusDetailScreen}
+								options={{
+									headerStyle: { backgroundColor: '#C72730' },
+									headerTintColor: '#ffffff',
+									headerTitleStyle: { fontSize: 15 },
+								}}
+							/>
+						</Stack.Navigator>
+					</NavigationContainer>
+				)}
 			</View>
 		</Host>
 	)

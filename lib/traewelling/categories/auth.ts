@@ -11,7 +11,7 @@ import { SimpleResponse, TokenResponse, UserResponse } from "../types/responseTy
  * @returns TokenResponse
  */
  export async function signup(username: string, name: string, email: string, password: string): Promise<TokenResponse> {
-    const { error, data } = await makeRequest<TokenResponse>('/v1/auth/signup', 'POST', null, {
+    const { error, data, errorPayload } = await makeRequest<TokenResponse>('/v1/auth/signup', 'POST', null, {
         username: username,
         name: name,
         email: email,
@@ -19,8 +19,8 @@ import { SimpleResponse, TokenResponse, UserResponse } from "../types/responseTy
         password_confirmation: password
     })
 
-    if(error) throw data
-    return data
+    if(error) throw data ?? errorPayload
+    return data!
 }
 
 /**
@@ -31,13 +31,13 @@ import { SimpleResponse, TokenResponse, UserResponse } from "../types/responseTy
  * @returns TokenResponse
  */
 export async function login(email: string, password: string): Promise<TokenResponse> {
-    const { error, data } = await makeRequest<TokenResponse>('/v1/auth/login', 'POST', null, {
+    const { error, data, errorPayload } = await makeRequest<TokenResponse>('/v1/auth/login', 'POST', null, {
         email: email,
         password: password
-    })
+    }, true)
 
-    if(error) throw data
-    return data
+    if(error) throw data ?? errorPayload
+    return data!
 }
 
 /**
@@ -47,10 +47,10 @@ export async function login(email: string, password: string): Promise<TokenRespo
  * @returns SimpleResponse
  */
 export async function refresh(token: string): Promise<SimpleResponse> {
-    const { error, data } = await makeRequest<SimpleResponse>('/v1/auth/refresh', 'GET', token)
+    const { error, data, errorPayload } = await makeRequest<SimpleResponse>('/v1/auth/refresh', 'GET', token)
 
-    if(error) throw data
-    return data
+    if(error) throw data ?? errorPayload
+    return data!
 }
 
 /**
@@ -60,10 +60,10 @@ export async function refresh(token: string): Promise<SimpleResponse> {
  * @returns 
  */
 export async function logout(token: string): Promise<SimpleResponse> {
-    const { error, data } = await makeRequest<SimpleResponse>('/v1/auth/logout', 'GET', token)
+    const { error, data, errorPayload } = await makeRequest<SimpleResponse>('/v1/auth/logout', 'GET', token)
 
-    if(error) throw data
-    return data
+    if(error) throw data ?? errorPayload
+    return data!
 }
 
 /**
@@ -73,8 +73,8 @@ export async function logout(token: string): Promise<SimpleResponse> {
  * @returns 
  */
 export async function user(token: string): Promise<UserResponse> {
-    const { error, data } = await makeRequest<UserResponse>('/v1/auth/user', 'GET', token)
+    const { error, data, errorPayload } = await makeRequest<UserResponse>('/v1/auth/user', 'GET', token)
 
-    if(error) throw data
-    return data
+    if(error) throw data ?? errorPayload
+    return data!
 }

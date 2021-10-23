@@ -9,10 +9,10 @@ import { DashboardResponse, DataResponse, LeaderboardResponse, NotificationRespo
  * @returns
  */
 export async function leaderboardFriends(token: string): Promise<LeaderboardResponse> {
-	const { error, data } = await makeRequest<LeaderboardResponse>('/v1/leaderboard/friends', 'GET', token)
+	const { error, data, errorPayload } = await makeRequest<LeaderboardResponse>('/v1/leaderboard/friends', 'GET', token)
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
 
 /**
@@ -23,10 +23,10 @@ export async function leaderboardFriends(token: string): Promise<LeaderboardResp
  * @returns
  */
 export async function dashboard(token: string, page: number = 1): Promise<DashboardResponse> {
-	const { error, data } = await makeRequest<DashboardResponse>(`/v1/dashboard?page=${page}`, 'GET', token)
+	const { error, data, errorPayload } = await makeRequest<DashboardResponse>(`/v1/dashboard?page=${page}`, 'GET', token)
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
 
 /**
@@ -37,10 +37,10 @@ export async function dashboard(token: string, page: number = 1): Promise<Dashbo
  * @returns
  */
 export async function dashboardGlobal(token: string, page: number = 1): Promise<DashboardResponse> {
-	const { error, data } = await makeRequest<DashboardResponse>(`/v1/dashboard/global?page=${page}`, 'GET', token)
+	const { error, data, errorPayload } = await makeRequest<DashboardResponse>(`/v1/dashboard/global?page=${page}`, 'GET', token)
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
 
 /**
@@ -51,10 +51,10 @@ export async function dashboardGlobal(token: string, page: number = 1): Promise<
  * @returns
  */
 export async function dashboardFuture(token: string, page: number = 1): Promise<DashboardResponse> {
-	const { error, data } = await makeRequest<DashboardResponse>(`/v1/dashboard/future?page=${page}`, 'GET', token)
+	const { error, data, errorPayload } = await makeRequest<DashboardResponse>(`/v1/dashboard/future?page=${page}`, 'GET', token)
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
 
 /**
@@ -65,10 +65,10 @@ export async function dashboardFuture(token: string, page: number = 1): Promise<
  * @returns
  */
 export async function likeStatus(statusId: number, token: string): Promise<SimpleResponse> {
-	const { error, data } = await makeRequest<SimpleResponse>(`/v1/like/${statusId}`, 'POST', token)
+	const { error, data, errorPayload } = await makeRequest<SimpleResponse>(`/v1/like/${statusId}`, 'POST', token)
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
 
 /**
@@ -79,10 +79,10 @@ export async function likeStatus(statusId: number, token: string): Promise<Simpl
  * @returns
  */
 export async function unlikeStatus(statusId: number, token: string): Promise<SimpleResponse> {
-	const { error, data } = await makeRequest<SimpleResponse>(`/v1/like/${statusId}`, 'DELETE', token)
+	const { error, data, errorPayload } = await makeRequest<SimpleResponse>(`/v1/like/${statusId}`, 'DELETE', token)
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
 
 /**
@@ -93,10 +93,10 @@ export async function unlikeStatus(statusId: number, token: string): Promise<Sim
  * @returns
  */
 export async function deleteStatus(statusId: number, token: string): Promise<SimpleResponse> {
-	const { error, data } = await makeRequest<SimpleResponse>(`/v1/statuses/${statusId}`, 'DELETE', token)
+	const { error, data, errorPayload } = await makeRequest<SimpleResponse>(`/v1/statuses/${statusId}`, 'DELETE', token)
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
 
 /**
@@ -116,14 +116,14 @@ export async function updateStatus(
 	visibility: StatusVisibility,
 	token: string
 ): Promise<SimpleResponse> {
-	const { error, data } = await makeRequest<SimpleResponse>(`/v1/statuses/${statusId}`, 'PUT', token, {
+	const { error, data, errorPayload } = await makeRequest<SimpleResponse>(`/v1/statuses/${statusId}`, 'PUT', token, {
 		body: body,
 		business: business,
 		visibility: visibility,
 	})
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
 
 /**
@@ -133,10 +133,10 @@ export async function updateStatus(
  * @returns 
  */
 export async function notifications(token: string): Promise<NotificationResponse> {
-	const { error, data } = await makeRequest<NotificationResponse>(`/v1/notifications`, 'GET', token)
+	const { error, data, errorPayload } = await makeRequest<NotificationResponse>(`/v1/notifications`, 'GET', token)
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
 
 /**
@@ -146,8 +146,8 @@ export async function notifications(token: string): Promise<NotificationResponse
  * @returns 
  */
 export async function notificationCount(token: string): Promise<DataResponse> {
-	const { error, data } = await makeRequest<DataResponse>(`/v1/notifications/count`, 'GET', token)
+	const { error, data, errorPayload } = await makeRequest<DataResponse>(`/v1/notifications/count`, 'GET', token)
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }

@@ -1,4 +1,4 @@
-import { Links, Meta, Polyline, Status, Stopover } from "./extraTypes"
+import { Links, Meta, Polyline, Status, Stopover, User } from "./extraTypes"
 import { Notification } from "./notificationTypes"
 import { CheckinStatus, Departure, QueryStation, Trip } from "./stationTypes"
 
@@ -24,24 +24,7 @@ export type TokenResponse = Response & {
 }
 
 export type UserResponse = Response & {
-	data: {
-		id: number
-		displayName: string
-		username: string
-		trainDistance: number
-		trainDuration: number
-		trainSpeed: number
-		points: number
-		twitterUrl: string | null
-		mastodonUrl: string | null
-		privateProfile: boolean
-		role: number
-		home: any
-		private: boolean
-		prevent_index: boolean
-		dbl: number
-		language: string | null
-	}
+	data: User
 }
 
 export type LeaderboardResponse = Response & {

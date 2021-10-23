@@ -6,12 +6,9 @@ const statusStyles = (theme: Theme, colors: BaseColors) => {
         container: {
             padding: 8
         },
-        cardHolder: {
-            borderRadius: 4,
-            overflow: 'hidden',
-        },
         card: {
             backgroundColor: colors.cardBackground,
+            overflow: 'hidden',
             borderRadius: 4,
             elevation: 1,
         },
@@ -94,9 +91,9 @@ const statusStyles = (theme: Theme, colors: BaseColors) => {
         bottom: {
             flexDirection: 'row',
             alignItems: 'center',
-            paddingVertical: 8,
-            paddingStart: 10,
+            paddingStart: 7,
             paddingEnd: 16,
+            paddingVertical: 4
         },
         progressBar: {
             backgroundColor: colors.accentColor,
@@ -125,16 +122,18 @@ const statusStyles = (theme: Theme, colors: BaseColors) => {
             borderRadius: 4,
             overflow: 'hidden',
         },
-        likeHolder: {
+        likeButton: {
             borderRadius: 4,
-            overflow: 'hidden',
+            overflow: 'hidden'
         },
-        likeRow: {
-            paddingHorizontal: 6,
-            paddingVertical: 2,
-            flexDirection: 'row',
+        likeButtonIcon: {
+            height: 34,
+            width: 34,
             alignItems: 'center',
-            minHeight: 22,
+            justifyContent: 'center'
+        },
+        likeButtonInner: {
+            alignItems: 'center'
         },
         likeText: {
             marginLeft: 5,

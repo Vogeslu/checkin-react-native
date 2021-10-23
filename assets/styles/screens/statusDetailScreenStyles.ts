@@ -84,13 +84,13 @@ const statusDetailScreenStyles = (theme: Theme, colors: BaseColors) => {
             fontSize: 13,
             color: colors.textBlue,
         },
-		bottom: {
-			flexDirection: 'row',
-			alignItems: 'center',
-			paddingVertical: 8,
-			paddingStart: 10,
-			paddingEnd: 16,
-		},
+        bottom: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingStart: 7,
+            paddingEnd: 16,
+            paddingVertical: 4
+        },
         progressBar: {
             backgroundColor: colors.accentColor,
             height: 3,
@@ -118,17 +118,19 @@ const statusDetailScreenStyles = (theme: Theme, colors: BaseColors) => {
 			borderRadius: 4,
 			overflow: 'hidden',
 		},
-		likeHolder: {
-			borderRadius: 4,
-			overflow: 'hidden',
-		},
-		likeRow: {
-			paddingHorizontal: 6,
-			paddingVertical: 2,
-			flexDirection: 'row',
-			alignItems: 'center',
-			minHeight: 22,
-		},
+        likeButton: {
+            borderRadius: 4,
+            overflow: 'hidden'
+        },
+        likeButtonIcon: {
+            height: 34,
+            width: 34,
+            alignItems: 'center',
+            justifyContent: 'center'
+        },
+        likeButtonInner: {
+            alignItems: 'center'
+        },
         likeText: {
             marginLeft: 5,
             fontSize: 13,

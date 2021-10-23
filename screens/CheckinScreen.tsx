@@ -11,10 +11,9 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { ActivityIndicator, Text, TextInput, TouchableNativeFeedback, View } from 'react-native'
+import { ActivityIndicator, ScrollView, Text, TextInput, TouchableNativeFeedback, View } from 'react-native'
 import { checkin } from '../lib/traewelling/categories/trains'
 import { Departure } from '../lib/traewelling/types/stationTypes'
-import { token } from '../temp'
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Stopover } from '../lib/traewelling/types/extraTypes'
@@ -88,7 +87,7 @@ const visibilityItems: PickerItem[] = [
 ]
 
 export default function CheckinScreen({ route, navigation }: Props) {
-	const { theme, colors } = useApp()
+	const { theme, colors, token, user } = useApp()
 	const styles = useMemo(() => checkinScreenStyles(theme, colors), [theme])
 
 	const [departure] = useState((route.params as { departure: Departure }).departure)
@@ -136,7 +135,7 @@ export default function CheckinScreen({ route, navigation }: Props) {
 	}, [])
 
 	const renderPickerItem = (item: PickerItem, type: string) => (
-		<TouchableElement onPress={() => onSelectItem(item, type)}>
+		<TouchableElement pressIn={false} backgroundColor={colors.cardTouch} onPress={() => onSelectItem(item, type)}>
 			<View style={styles.modalItem}>
 				<Text style={styles.modalItemText}>{item.label}</Text>
 				{item.extraLabel && <Text style={styles.modalItemSubText}>{item.extraLabel}</Text>}
@@ -150,7 +149,7 @@ export default function CheckinScreen({ route, navigation }: Props) {
 
 		try {
 			const response = await checkin(
-				token,
+				token!,
 				departure.tripId,
 				departure.line.name,
 				departure.station.id!,
@@ -166,7 +165,7 @@ export default function CheckinScreen({ route, navigation }: Props) {
 			)
 			setCheckingIn(false)
 
-			const status = await getStatus(token, response.data.status.id)
+			const status = await getStatus(token!, response.data.status.id)
 
 			navigation.dispatch(StackActions.popToTop())
 			//@ts-ignore
@@ -175,7 +174,7 @@ export default function CheckinScreen({ route, navigation }: Props) {
 	}
 
 	return (
-		<View style={{ flex: 1, backgroundColor: colors.baseBackground }}>
+		<ScrollView style={{ flex: 1, backgroundColor: colors.baseBackground }}>
 			<View style={styles.headerContainer}>
 				<View style={styles.bodyContainer}>
 					<Text style={styles.bodyLabel}>Status-Nachricht:</Text>
@@ -194,7 +193,8 @@ export default function CheckinScreen({ route, navigation }: Props) {
 				</View>
 				<View>
 					<TouchableElement
-						background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
+						pressIn={false}
+						backgroundColor={colors.cardTouch}
 						onPress={() => businessModal.current?.open()}>
 						<View style={styles.optionRow}>
 							<View style={styles.optionIcon}>
@@ -204,7 +204,8 @@ export default function CheckinScreen({ route, navigation }: Props) {
 						</View>
 					</TouchableElement>
 					<TouchableElement
-						background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
+						pressIn={false}
+						backgroundColor={colors.cardTouch}
 						onPress={() => visibilityModal.current?.open()}>
 						<View style={styles.optionRow}>
 							<View style={styles.optionIcon}>
@@ -213,38 +214,42 @@ export default function CheckinScreen({ route, navigation }: Props) {
 							<Text style={styles.optionText}>{visibility.label}</Text>
 						</View>
 					</TouchableElement>
-					<View style={{ marginTop: 15 }} />
-					<TouchableElement
-						background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
-						onPress={() => setTweet((current) => !current)}>
-						<View style={styles.optionRow}>
-							<View style={styles.optionIcon}>
-								<FontAwesomeIcon icon={faTwitter} color={colors.iconSecondary} />
+					{(user?.twitterUrl || user?.mastodonUrl) && <View style={{ marginTop: 15 }} />}
+					{user?.twitterUrl && (
+						<TouchableElement
+							pressIn={false}
+							backgroundColor={colors.cardTouch}
+							onPress={() => setTweet((current) => !current)}>
+							<View style={styles.optionRow}>
+								<View style={styles.optionIcon}>
+									<FontAwesomeIcon icon={faTwitter} color={colors.iconSecondary} />
+								</View>
+								<Text style={styles.optionText}>Auf Twitter posten</Text>
+								{tweet && <FontAwesomeIcon icon={faCheck} color={colors.iconPrimary} size={14} />}
 							</View>
-							<Text style={styles.optionText}>Auf Twitter posten</Text>
-							{tweet && <FontAwesomeIcon icon={faCheck} color={colors.iconPrimary} size={14} />}
-						</View>
-					</TouchableElement>
-					<TouchableElement
-						background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
-						onPress={() => setToot((current) => !current)}>
-						<View style={styles.optionRow}>
-							<View style={styles.optionIcon}>
-								<FontAwesomeIcon icon={faMastodon} color={colors.iconSecondary} />
+						</TouchableElement>
+					)}
+					{user?.mastodonUrl && (
+						<TouchableElement
+							pressIn={false}
+							backgroundColor={colors.cardTouch}
+							onPress={() => setToot((current) => !current)}>
+							<View style={styles.optionRow}>
+								<View style={styles.optionIcon}>
+									<FontAwesomeIcon icon={faMastodon} color={colors.iconSecondary} />
+								</View>
+								<Text style={styles.optionText}>Auf Mastodon tooten</Text>
+								{toot && <FontAwesomeIcon icon={faCheck} color={colors.iconPrimary} size={14} />}
 							</View>
-							<Text style={styles.optionText}>Auf Mastodon tooten</Text>
-							{toot && <FontAwesomeIcon icon={faCheck} color={colors.iconPrimary} size={14} />}
-						</View>
-					</TouchableElement>
+						</TouchableElement>
+					)}
 				</View>
-				<View style={styles.submitHolder}>
-					<TouchableElement onPress={onCheckin}>
-						<View style={styles.submit}>
-							{checkingIn && <ActivityIndicator color={'#ffffff'} style={{ marginRight: 8 }} />}
-							<Text style={styles.submitText}>Jetzt einchecken</Text>
-						</View>
-					</TouchableElement>
-				</View>
+				<TouchableElement onPress={onCheckin} style={styles.submitHolder}>
+					<View style={styles.submit}>
+						{checkingIn && <ActivityIndicator color={'#ffffff'} style={{ marginRight: 8 }} />}
+						<Text style={styles.submitText}>Jetzt einchecken</Text>
+					</View>
+				</TouchableElement>
 			</View>
 			<Portal>
 				<Modalize
@@ -278,6 +283,6 @@ export default function CheckinScreen({ route, navigation }: Props) {
 					}}
 				/>
 			</Portal>
-		</View>
+		</ScrollView>
 	)
 }

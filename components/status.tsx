@@ -86,130 +86,115 @@ const Status: React.FC<StatusProps> = ({ status, onPress }) => {
 
 	return (
 		<View style={styles.container}>
-			<View style={styles.cardHolder}>
-				<TouchableElement backgroundColor={colors.cardTouch} onPress={onPress}>
-					<View style={styles.card}>
-						<View style={styles.top}>
-							<View style={styles.graph}>
-								<View style={styles.dot}></View>
-								<View style={styles.flex}>
-									<View style={styles.bar}></View>
-								</View>
-								<View style={styles.dot}></View>
+			<TouchableElement backgroundColor={colors.cardTouch} onPress={onPress} style={styles.card}>
+				<View>
+					<View style={styles.top}>
+						<View style={styles.graph}>
+							<View style={styles.dot}></View>
+							<View style={styles.flex}>
+								<View style={styles.bar}></View>
 							</View>
-							<View style={styles.details}>
-								<View style={styles.stationRow}>
-									<Text style={styles.stationName}>{status.train.origin.name}</Text>
-									<Text style={styles.stationDate}>
-										{status.train.origin.isDepartureDelayed &&
-											status.train.origin.departurePlanned && (
-												<>
-													<Text
-														style={{
-															color: colors.textSecondary,
-															textDecorationLine: 'line-through',
-														}}>
-														{getTime(status.train.origin.departurePlanned)}{' '}
-													</Text>{' '}
-												</>
-											)}
-										{getTime(status.train.origin.departure)}
-									</Text>
-								</View>
-								<View style={styles.data}>
-									<View style={styles.dataRow}>
-										<View style={styles.dataItem}>
-											{getTransportIcon(status.train.category)}
-											<Text style={styles.dataText}>{status.train.lineName}</Text>
-										</View>
-										<View style={styles.dataItem}>
-											<FontAwesomeIcon icon={faRoute} size={13} color={colors.iconSecondary} />
-											<Text style={styles.dataText}>
-												{Math.round(status.train.distance / 1000)} km
-											</Text>
-										</View>
-										<View style={styles.dataItem}>
-											<FontAwesomeIcon
-												icon={faStopwatch}
-												size={13}
-												color={colors.iconSecondary}
-											/>
-											<Text style={styles.dataText}>{getDuration(status.train.duration)}</Text>
-										</View>
-									</View>
-									{status.event && (
-										<View style={styles.dataItem}>
-											<FontAwesomeIcon
-												icon={faCalendarDay}
-												size={13}
-												color={colors.iconSecondary}
-											/>
-											<Text style={styles.dataTextBlue}>{status.event.name}</Text>
-										</View>
-									)}
-									{status.body.length > 0 && (
-										<View style={styles.dataItem}>
-											<FontAwesomeIcon
-												icon={faQuoteLeft}
-												size={13}
-												color={colors.iconSecondary}
-											/>
-											<Text style={styles.dataText}>{status.body}</Text>
-										</View>
-									)}
-								</View>
-								<View style={styles.stationRow}>
-									<Text style={styles.stationName}>{status.train.destination.name}</Text>
-									<Text style={styles.stationDate}>
-										{status.train.destination.isArrivalDelayed &&
-											status.train.destination.arrivalPlanned && (
-												<>
-													<Text
-														style={{
-															color: colors.textSecondary,
-															textDecorationLine: 'line-through',
-														}}>
-														{getTime(status.train.destination.arrivalPlanned)}
-													</Text>{' '}
-												</>
-											)}
-										{getTime(status.train.destination.arrival)}
-									</Text>
-								</View>
-							</View>
+							<View style={styles.dot}></View>
 						</View>
-						<View style={{ backgroundColor: theme === Theme.dark ? '#404040' : '#DFDFDF' }}>
-							<View style={[styles.progressBar, { width: `${getProgress}%` }]} />
-						</View>
-						<View style={styles.bottom}>
-							<View style={styles.likeHolder}>
-								<TouchableElement backgroundColor={colors.cardTouch}>
-									<View style={styles.likeRow}>
-										<FontAwesomeIcon
-											icon={status.liked ? faStarSolid : faStarRegular}
-											size={13}
-											color={colors.star}
-										/>
-										{status.likes > 0 && <Text style={styles.likeText}>{status.likes}</Text>}
-									</View>
-								</TouchableElement>
+						<View style={styles.details}>
+							<View style={styles.stationRow}>
+								<Text style={styles.stationName}>{status.train.origin.name}</Text>
+								<Text style={styles.stationDate}>
+									{status.train.origin.isDepartureDelayed && status.train.origin.departurePlanned && (
+										<>
+											<Text
+												style={{
+													color: colors.textSecondary,
+													textDecorationLine: 'line-through',
+												}}>
+												{getTime(status.train.origin.departurePlanned)}{' '}
+											</Text>{' '}
+										</>
+									)}
+									{getTime(status.train.origin.departure)}
+								</Text>
 							</View>
-							<View style={styles.bottomRight}>
-								<FontAwesomeIcon icon={faGlobeAmericas} size={13} color={colors.iconPrimary} />
-								<View style={styles.bottomRightText}>
-									<View style={styles.bottomRightTextHolder}>
-										<View>
-											<Text style={styles.bottomRightTextOuter}>{status.username}</Text>
-										</View>
+							<View style={styles.data}>
+								<View style={styles.dataRow}>
+									<View style={styles.dataItem}>
+										{getTransportIcon(status.train.category)}
+										<Text style={styles.dataText}>{status.train.lineName}</Text>
 									</View>
-									<Text style={styles.bottomRightTextCenter}> um </Text>
-									<Text style={styles.bottomRightTextOuter}>{getTime(status.createdAt)}</Text>
+									<View style={styles.dataItem}>
+										<FontAwesomeIcon icon={faRoute} size={13} color={colors.iconSecondary} />
+										<Text style={styles.dataText}>
+											{Math.round(status.train.distance / 1000)} km
+										</Text>
+									</View>
+									<View style={styles.dataItem}>
+										<FontAwesomeIcon icon={faStopwatch} size={13} color={colors.iconSecondary} />
+										<Text style={styles.dataText}>{getDuration(status.train.duration)}</Text>
+									</View>
 								</View>
+								{status.event && (
+									<View style={styles.dataItem}>
+										<FontAwesomeIcon icon={faCalendarDay} size={13} color={colors.iconSecondary} />
+										<Text style={styles.dataTextBlue}>{status.event.name}</Text>
+									</View>
+								)}
+								{status.body.length > 0 && (
+									<View style={styles.dataItem}>
+										<FontAwesomeIcon icon={faQuoteLeft} size={13} color={colors.iconSecondary} />
+										<Text style={styles.dataText}>{status.body}</Text>
+									</View>
+								)}
+							</View>
+							<View style={styles.stationRow}>
+								<Text style={styles.stationName}>{status.train.destination.name}</Text>
+								<Text style={styles.stationDate}>
+									{status.train.destination.isArrivalDelayed &&
+										status.train.destination.arrivalPlanned && (
+											<>
+												<Text
+													style={{
+														color: colors.textSecondary,
+														textDecorationLine: 'line-through',
+													}}>
+													{getTime(status.train.destination.arrivalPlanned)}
+												</Text>{' '}
+											</>
+										)}
+									{getTime(status.train.destination.arrival)}
+								</Text>
 							</View>
 						</View>
 					</View>
-				</TouchableElement>
-			</View>
+					<View style={{ backgroundColor: theme === Theme.dark ? '#404040' : '#DFDFDF' }}>
+						<View style={[styles.progressBar, { width: `${getProgress}%` }]} />
+					</View>
+					<View style={styles.bottom}>
+						<TouchableElement backgroundColor={colors.star} style={styles.likeButton}>
+							<View style={styles.likeButtonInner}>
+								<View style={styles.likeButtonIcon}>
+									<FontAwesomeIcon
+										icon={status.liked ? faStarSolid : faStarRegular}
+										size={16}
+										color={colors.star}
+									/>
+								</View>
+								{status.likes > 0 && <Text style={styles.likeText}>{status.likes}</Text>}
+							</View>
+						</TouchableElement>
+						<View style={styles.bottomRight}>
+							<FontAwesomeIcon icon={faGlobeAmericas} size={13} color={colors.iconPrimary} />
+							<View style={styles.bottomRightText}>
+								<View style={styles.bottomRightTextHolder}>
+									<View>
+										<Text style={styles.bottomRightTextOuter}>{status.user.username}</Text>
+									</View>
+								</View>
+								<Text style={styles.bottomRightTextCenter}> um </Text>
+								<Text style={styles.bottomRightTextOuter}>{getTime(status.createdAt)}</Text>
+							</View>
+						</View>
+					</View>
+				</View>
+			</TouchableElement>
 		</View>
 	)
 }

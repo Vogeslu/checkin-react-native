@@ -1,10 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Image, StatusBar, StyleSheet, View } from 'react-native'
 import { Modalize } from 'react-native-modalize'
+import SystemNavigationBar from 'react-native-system-navigation-bar'
+import { Theme } from '../assets/styles/stylesBase'
 import LauncherTabBar from '../components/LauncherTabBar'
 import { useApp } from '../provider/appProvider'
-import { host, username } from '../temp'
+import { host } from '../temp'
 import EmptyScreen from './EmptyScreen'
 import GlobalDashboardScreen from './tabs/GlobalDashboardScreen'
 
@@ -21,11 +23,15 @@ const Tab = createBottomTabNavigator()
 
 export default function LauncherScreen() {
 	const checkinModal = useRef<Modalize>(null)
-	const { colors } = useApp()
+	const { colors, theme, user } = useApp()
 
 	const onPressCheckin = () => {
 		checkinModal.current?.open()
 	}
+
+	useEffect(() => {
+		SystemNavigationBar.setNavigationColor(colors.tabBarBackground, theme === Theme.dark)
+	}, [colors, theme])
 
 	return (
 		<View style={{ backgroundColor: colors.baseBackground, flex: 1 }}>
@@ -51,7 +57,7 @@ export default function LauncherScreen() {
 						<View style={LauncherScreenStyles.profileImageHolder}>
 							<Image
 								style={LauncherScreenStyles.profileImage}
-								source={{ uri: `${host}/profile/${username}/profilepicture`, width: 32, height: 32 }}
+								source={{ uri: `${host}/profile/${user!.username}/profilepicture`, width: 32, height: 32 }}
 							/>
 						</View>
 					),

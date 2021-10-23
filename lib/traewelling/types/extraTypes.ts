@@ -1,10 +1,29 @@
+import { QueryStation } from "./stationTypes"
+
+export type User = {
+	id: number
+	displayName: string
+	username: string
+	trainDistance: number
+	trainDuration: number
+	trainSpeed: number
+	points: number
+	twitterUrl: string | null
+	mastodonUrl: string | null
+	privateProfile: boolean
+	role: number
+	home: QueryStation | null
+	private: boolean
+	preventIndex: boolean
+	dbl: number
+	language: string | null
+}
+
 export type Status = {
 	id: number
 	body: string
 	type: string
-	user: number
-	username: string
-	preventIndex: boolean
+	user: User
 	business: number
 	visibility: number
 	likes: number

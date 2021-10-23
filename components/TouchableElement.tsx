@@ -11,7 +11,7 @@ import {
 	TouchableWithoutFeedback,
 	Vibration,
 	View,
-    ViewStyle,
+	ViewStyle,
 } from 'react-native'
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback'
 
@@ -21,7 +21,8 @@ type TouchableElementProps = {
 	backgroundColor?: string
 	feedback?: boolean
 	pressIn?: boolean
-    style?: StyleProp<ViewStyle>
+	pressable?: boolean
+	style?: StyleProp<ViewStyle>
 }
 
 const AnimatedTouchableWithoutFeedback = Animated.createAnimatedComponent(TouchableWithoutFeedback)
@@ -29,11 +30,11 @@ const AnimatedTouchableWithoutFeedback = Animated.createAnimatedComponent(Toucha
 const TouchableElement: React.FC<TouchableElementProps> = ({
 	children,
 	onPress,
-	background,
 	backgroundColor,
 	pressIn = true,
 	feedback = false,
-    style = {}
+	style = {},
+	pressable = true
 }) => {
 	const buttonScale = useRef(new Animated.Value(1)).current
 	const backgroundOpacity = useRef(new Animated.Value(0)).current
@@ -83,12 +84,22 @@ const TouchableElement: React.FC<TouchableElementProps> = ({
 	}
 
 	return (
-		<Animated.View style={[{ position: 'relative', justifyContent: 'center', alignSelf: 'stretch', ...(pressIn ? animatedScaleStyle : {})}, style] }>
+		<Animated.View
+			style={[
+				{
+					position: 'relative',
+					justifyContent: 'center',
+					alignSelf: 'stretch',
+					...(pressIn ? animatedScaleStyle : {}),
+				},
+				style,
+			]}
+			pointerEvents={ pressable ? 'auto' : 'none' }>
 			<AnimatedTouchableWithoutFeedback
 				onPressIn={onPressIn}
 				onPressOut={onPressOut}
 				onPress={onPress}
-				style={{ alignSelf: 'center', width: '100%' }}>
+				style={{ alignSelf: 'center', width: '100%', backgroundColor: 'green' }}>
 				{children}
 			</AnimatedTouchableWithoutFeedback>
 			{backgroundColor && (
@@ -99,7 +110,7 @@ const TouchableElement: React.FC<TouchableElementProps> = ({
 						width: '100%',
 						height: '100%',
 						backgroundColor: backgroundColor,
-						zIndex: 1,
+						zIndex: 10,
 						opacity: backgroundOpacity,
 					}}
 				/>

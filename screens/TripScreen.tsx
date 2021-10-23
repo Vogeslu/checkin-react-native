@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { ActivityIndicator, FlatList, Text, TouchableNativeFeedback, View } from 'react-native'
+import { ActivityIndicator, FlatList, Text, TouchableNativeFeedback, View, ViewBase } from 'react-native'
 import { getTrip } from '../lib/traewelling/categories/trains'
 import { Departure, Trip } from '../lib/traewelling/types/stationTypes'
-import { token } from '../temp'
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Stopover } from '../lib/traewelling/types/extraTypes'
@@ -10,6 +9,7 @@ import { getTime } from '../lib/utilities'
 import { useApp } from '../provider/appProvider'
 import tripScreenStyles from '../assets/styles/screens/tripScreenStyles'
 import TouchableElement from '../components/TouchableElement'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type TripScreenParamList = {
 	Trip: { departure: Departure }
@@ -18,8 +18,10 @@ type TripScreenParamList = {
 type Props = NativeStackScreenProps<TripScreenParamList, 'Trip'>
 
 export default function TripScreen({ route, navigation }: Props) {
-	const { theme, colors } = useApp()
+	const { theme, colors, token } = useApp()
 	const styles = useMemo(() => tripScreenStyles(theme, colors), [theme])
+
+	const { bottom, left, right } = useSafeAreaInsets()
 
 	const [departure] = useState((route.params as { departure: Departure }).departure)
 	const [trip, setTrip] = useState<Stopover[] | null>(null)
@@ -46,7 +48,7 @@ export default function TripScreen({ route, navigation }: Props) {
 	}, [])
 
 	const loadTrip = async () => {
-		const trip = await getTrip(token, departure.tripId, departure.line.name, departure.station.id!)
+		const trip = await getTrip(token!, departure.tripId, departure.line.name, departure.station.id!)
 
 		const input = [];
 
@@ -69,44 +71,44 @@ export default function TripScreen({ route, navigation }: Props) {
 
 	const renderResultItem = ({ item }: { item: Stopover }) => (
 		<View style={styles.resultItemContainer}>
-			<View style={styles.resultItemHolder}>
-				<TouchableElement
-					background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}
-					onPress={() => onPressStopover(item)}>
-					<View style={styles.resultItem}>
-						<View style={{ flex: 1 }}>
-							<Text style={styles.station}>{item.name}</Text>
-							{(item.platform || item.arrivalPlatformPlanned) && (
-								<Text style={styles.platform}>
-									Gleis {item.platform ?? item.arrivalPlatformPlanned}
+			<TouchableElement
+				style={styles.resultItem}
+				backgroundColor={colors.cardTouch}
+				onPress={() => onPressStopover(item)}>
+				<View style={styles.resultItemInner}>
+					<View style={{ flex: 1 }}>
+						<Text style={styles.station}>{item.name}</Text>
+						{(item.platform || item.arrivalPlatformPlanned) && (
+							<Text style={styles.platform}>
+								Gleis {item.platform ?? item.arrivalPlatformPlanned}
+							</Text>
+						)}
+					</View>
+					{item.departure && (
+						<View style={styles.departureTimeContainer}>
+							<Text
+								style={[
+									styles.departureTime,
+									{ color: item.isDepartureDelayed ? colors.textRed : colors.textGreen },
+								]}>
+								{getTime(item.departure)}
+							</Text>
+							{item.isDepartureDelayed && item.departurePlanned && (
+								<Text style={[styles.departureTime, { textDecorationLine: 'line-through' }]}>
+									{getTime(item.departurePlanned)}
 								</Text>
 							)}
 						</View>
-						{item.departure && (
-							<View style={styles.departureTimeContainer}>
-								<Text
-									style={[
-										styles.departureTime,
-										{ color: item.isDepartureDelayed ? colors.textRed : colors.textGreen },
-									]}>
-									{getTime(item.departure)}
-								</Text>
-								{item.isDepartureDelayed && item.departurePlanned && (
-									<Text style={[styles.departureTime, { textDecorationLine: 'line-through' }]}>
-										{getTime(item.departurePlanned)}
-									</Text>
-								)}
-							</View>
-						)}
-					</View>
-				</TouchableElement>
-			</View>
+					)}
+				</View>
+			</TouchableElement>
 		</View>
 	)
 
 	return (
 		<FlatList
 			style={{ flex: 1, backgroundColor: colors.baseBackground }}
+			contentContainerStyle={{ paddingBottom: bottom, paddingLeft: left, paddingRight: right }}
 			ListHeaderComponent={
 				<>
 					<View style={{ height: 8 }}></View>

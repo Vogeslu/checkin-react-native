@@ -9,8 +9,7 @@ import {
 	faGlobeAmericas,
 } from '@fortawesome/pro-solid-svg-icons'
 import React, { useEffect, useMemo, useState } from 'react'
-import { Dimensions, Image, Text, TouchableNativeFeedback, View } from 'react-native'
-import { token } from '../temp'
+import { Dimensions, Image, ScrollView, Text, TouchableNativeFeedback, View } from 'react-native'
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Status, Polyline as PolylineType, Stopover } from '../lib/traewelling/types/extraTypes'
@@ -29,7 +28,7 @@ type StatusDetailScreenParamList = {
 type Props = NativeStackScreenProps<StatusDetailScreenParamList, 'StatusDetail'>
 
 export default function StatusDetailScreen({ route, navigation }: Props) {
-	const { theme, colors, mapStyles } = useApp()
+	const { theme, colors, mapStyles, token } = useApp()
 	const styles = useMemo(() => statusDetailScreenStyles(theme, colors), [theme])
 
 	const [status] = useState<Status>((route.params as { status: Status }).status)
@@ -101,12 +100,12 @@ export default function StatusDetailScreen({ route, navigation }: Props) {
 	}, [updateTrigger])
 
 	const loadPolyline = async () => {
-		const response = await getPolyline(token, status.id)
+		const response = await getPolyline(token!, status.id)
 		setPolyline(response.data[status.id])
 	}
 
 	const loadStopovers = async () => {
-		const response = await getStopovers(token, status.train.trip)
+		const response = await getStopovers(token!, status.train.trip)
 		setStopovers(response.data[status.train.trip])
 	}
 
@@ -206,7 +205,7 @@ export default function StatusDetailScreen({ route, navigation }: Props) {
 	}, [stopovers, updateTrigger])
 
 	return (
-		<View style={{ flex: 1, backgroundColor: colors.baseBackground }}>
+		<ScrollView style={{ flex: 1, backgroundColor: colors.baseBackground }}>
 			<View style={styles.card}>
 				{polyline ? (
 					<MapView
@@ -310,26 +309,26 @@ export default function StatusDetailScreen({ route, navigation }: Props) {
 					<View style={[styles.progressBar, { width: `${getProgress}%` }]} />
 				</View>
 				<View style={styles.bottom}>
-					<View style={styles.likeHolder}>
-						<TouchableElement background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}>
-							<View style={styles.likeRow}>
+					<TouchableElement backgroundColor={colors.star} style={styles.likeButton}>
+						<View style={styles.likeButtonInner}>
+							<View style={styles.likeButtonIcon}>
 								<FontAwesomeIcon
 									icon={status.liked ? faStarSolid : faStarRegular}
-									size={13}
+									size={16}
 									color={colors.star}
 								/>
-								{status.likes > 0 && <Text style={styles.likeText}>{status.likes}</Text>}
 							</View>
-						</TouchableElement>
-					</View>
+							{status.likes > 0 && <Text style={styles.likeText}>{status.likes}</Text>}
+						</View>
+					</TouchableElement>
 					<View style={styles.bottomRight}>
 						<FontAwesomeIcon icon={faGlobeAmericas} size={13} color={colors.iconPrimary} />
 						<View style={styles.bottomRightText}>
 							<View style={styles.bottomRightTextHolder}>
 								<TouchableElement
-									background={TouchableNativeFeedback.Ripple(colors.cardTouch, false)}>
+									backgroundColor={colors.cardTouch}>
 									<View>
-										<Text style={styles.bottomRightTextOuter}>{status.username}</Text>
+										<Text style={styles.bottomRightTextOuter}>{status.user.username}</Text>
 									</View>
 								</TouchableElement>
 							</View>
@@ -339,6 +338,6 @@ export default function StatusDetailScreen({ route, navigation }: Props) {
 					</View>
 				</View>
 			</View>
-		</View>
+		</ScrollView>
 	)
 }

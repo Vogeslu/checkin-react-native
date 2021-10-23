@@ -16,25 +16,25 @@ export async function getNearbyStations(
 	longitude: number,
 	limit: number = 10
 ): Promise<NearbyStationResponse> {
-	const { error, data } = await makeRequest<NearbyStationResponse>(
+	const { error, data, errorPayload } = await makeRequest<NearbyStationResponse>(
 		`/v1/trains/station/nearby?latitude=${latitude}&longitude=${longitude}&limit=${limit}`,
 		'GET',
 		token
 	)
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
 
 export async function getAutocompleteStations(token: string, query: string): Promise<AutocompleteStationResponse> {
-	const { error, data } = await makeRequest<AutocompleteStationResponse>(
+	const { error, data, errorPayload } = await makeRequest<AutocompleteStationResponse>(
 		`/v1/trains/station/autocomplete/${query}`,
 		'GET',
 		token
 	)
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
 
 export async function getDeparturesFromStation(
@@ -48,25 +48,25 @@ export async function getDeparturesFromStation(
 	if (travelType) queryParameters.push(`travelType=${travelType}`)
 	if (when) queryParameters.push(`when=${new Date(when).toISOString()}`)
 
-	const { error, data } = await makeRequest<DeparturesResponse>(
+	const { error, data, errorPayload } = await makeRequest<DeparturesResponse>(
 		`/v1/trains/station/${station}/departures?${queryParameters.join('&')}`,
 		'GET',
 		token
 	)
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
 
 export async function getTrip(token: string, tripID: string, lineName: string, start: number): Promise<TripResponse> {
-	const { error, data } = await makeRequest<TripResponse>(
+	const { error, data, errorPayload } = await makeRequest<TripResponse>(
 		`/v1/trains/trip?tripID=${tripID}&lineName=${lineName}&start=${start}`,
 		'GET',
 		token
 	)
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
 
 export async function checkin(
@@ -84,7 +84,7 @@ export async function checkin(
 	tweet = false,
 	toot = false
 ): Promise<CheckinResponse> {
-	const { error, data } = await makeRequest<CheckinResponse>('/v1/trains/checkin', 'POST', token, {
+	const { error, data, errorPayload } = await makeRequest<CheckinResponse>('/v1/trains/checkin', 'POST', token, {
 		tripID: tripID,
 		lineName: lineName,
 		start: start,
@@ -99,13 +99,13 @@ export async function checkin(
 		toot: toot,
 	})
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
 
 export async function getV0LatestStations(token: string): Promise<V0LatestStationsResponse> {
-	const { error, data } = await makeRequest<V0LatestStationsResponse>(`/v0/trains/latest`, 'GET', token)
+	const { error, data, errorPayload } = await makeRequest<V0LatestStationsResponse>(`/v0/trains/latest`, 'GET', token)
 
-	if (error) throw data
-	return data
+	if (error) throw data ?? errorPayload
+	return data!
 }
