@@ -23,7 +23,8 @@ export type Status = {
 	id: number
 	body: string
 	type: string
-	user: User
+	user: number
+	username: string
 	business: number
 	visibility: number
 	likes: number

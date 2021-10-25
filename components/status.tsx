@@ -68,6 +68,8 @@ const Status: React.FC<StatusProps> = ({ status, onPress }) => {
 	}, [updateTrigger])
 
 	useEffect(() => {
+
+
 		const { end, current } = getProgressValues()
 		let interval: any = null
 
@@ -185,7 +187,7 @@ const Status: React.FC<StatusProps> = ({ status, onPress }) => {
 							<View style={styles.bottomRightText}>
 								<View style={styles.bottomRightTextHolder}>
 									<View>
-										<Text style={styles.bottomRightTextOuter}>{status.user.username}</Text>
+										<Text style={styles.bottomRightTextOuter}>{status.username}</Text>
 									</View>
 								</View>
 								<Text style={styles.bottomRightTextCenter}> um </Text>

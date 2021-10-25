@@ -16,17 +16,32 @@ import SystemNavigationBar from 'react-native-system-navigation-bar'
 import { Theme } from './assets/styles/stylesBase'
 import LoginScreen from './screens/authentication/LoginScreen'
 import RegistrationScreen from './screens/authentication/RegistrationScreen'
+import { navigationRef } from './assets/RootNavigation'
+import { EventRegister } from 'react-native-event-listeners'
 
 const Stack = createNativeStackNavigator()
 
 const NavigatorBase = () => {
 	const { colors, isReady, token } = useApp()
 
+	useEffect(() => {
+		const listener = EventRegister.addEventListener('resetNavigator', (target: string) => {
+			navigationRef.current?.reset({
+				index: 0,
+				routes: [{ name: target }]
+			})
+		})
+
+		return () => {
+			if(typeof listener === 'string') EventRegister.removeEventListener(listener)
+		}
+	}, [])
+
 	return (
 		<Host>
 			<View style={{ flex: 1, backgroundColor: colors.baseBackground }}>
 				{isReady && (
-					<NavigationContainer>
+					<NavigationContainer ref={navigationRef}>
 						<Stack.Navigator
 							initialRouteName={token ? 'Launcher' : 'Token'}
 							screenOptions={{

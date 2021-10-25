@@ -328,7 +328,7 @@ export default function StatusDetailScreen({ route, navigation }: Props) {
 								<TouchableElement
 									backgroundColor={colors.cardTouch}>
 									<View>
-										<Text style={styles.bottomRightTextOuter}>{status.user.username}</Text>
+										<Text style={styles.bottomRightTextOuter}>{status.username}</Text>
 									</View>
 								</TouchableElement>
 							</View>

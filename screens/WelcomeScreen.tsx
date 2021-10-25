@@ -9,7 +9,7 @@ import welcomeScreenStyles from '../assets/styles/screens/welcomeScreenStyles'
 import { Theme } from '../assets/styles/stylesBase'
 import TouchableElement from '../components/TouchableElement'
 import { useApp } from '../provider/appProvider'
-import { host } from '../temp'
+import { host } from '../config'
 
 export default function WelcomeScreen() {
 	const { theme, colors } = useApp()

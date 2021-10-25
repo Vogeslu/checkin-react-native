@@ -1,5 +1,5 @@
 import axios, { AxiosError, Method } from 'axios'
-import { host } from '../../temp'
+import { host } from '../../config'
 import { Response } from './types/responseTypes'
 
 const apiHost = `${host}/api`

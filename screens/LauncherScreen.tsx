@@ -1,12 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, { useEffect, useRef } from 'react'
 import { Image, StatusBar, StyleSheet, View } from 'react-native'
-import { Modalize } from 'react-native-modalize'
 import SystemNavigationBar from 'react-native-system-navigation-bar'
 import { Theme } from '../assets/styles/stylesBase'
 import LauncherTabBar from '../components/LauncherTabBar'
 import { useApp } from '../provider/appProvider'
-import { host } from '../temp'
+import { host } from '../config'
 import EmptyScreen from './EmptyScreen'
 import GlobalDashboardScreen from './tabs/GlobalDashboardScreen'
 
@@ -22,12 +21,7 @@ const LauncherScreenStyles = StyleSheet.create({
 const Tab = createBottomTabNavigator()
 
 export default function LauncherScreen() {
-	const checkinModal = useRef<Modalize>(null)
 	const { colors, theme, user } = useApp()
-
-	const onPressCheckin = () => {
-		checkinModal.current?.open()
-	}
 
 	useEffect(() => {
 		SystemNavigationBar.setNavigationColor(colors.tabBarBackground, theme === Theme.dark)
@@ -38,7 +32,7 @@ export default function LauncherScreen() {
 			<StatusBar backgroundColor={ colors.accentColor } barStyle="light-content" />
 			<Tab.Navigator
 				initialRouteName="Dashboard"
-				tabBar={(props) => <LauncherTabBar {...props} onPressCheckin={onPressCheckin} />}
+				tabBar={(props) => <LauncherTabBar {...props} />}
 				screenOptions={{
 					headerTitleAlign: 'center',
 					headerStyle: {

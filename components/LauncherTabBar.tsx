@@ -21,11 +21,7 @@ import { useApp } from '../provider/appProvider'
 import launcherTabBarStyles from '../assets/styles/components/launcherTabBarStyles'
 import TouchableElement from './TouchableElement'
 
-type LauncherTabBarProps = BottomTabBarProps & {
-	onPressCheckin: () => void
-}
-
-const LauncherTabBar: React.FC<LauncherTabBarProps> = ({ state, onPressCheckin, navigation }) => {
+const LauncherTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
 	const { theme, colors } = useApp()
 	const styles = useMemo(() => launcherTabBarStyles(theme, colors), [theme])
 

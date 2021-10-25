@@ -6,6 +6,9 @@ import realmSchema, { schemaVersion } from '../assets/schema/realmSchema'
 import { nightMapStyles, lightMapStyles } from '../assets/styles/mapStyles'
 import { BaseColors, colorsDark, colorsLight, Theme } from '../assets/styles/stylesBase'
 import { User } from '../lib/traewelling/types/extraTypes'
+import { user as getUser } from '../lib/traewelling/categories/auth'
+import { defaultSettings, loadSettings, saveSettings, Settings } from '../lib/settings'
+import { EventRegister } from 'react-native-event-listeners'
 
 type ContextProps = {
 	isReady: boolean
@@ -49,6 +52,8 @@ export const AppProvider: React.FC = ({ children }) => {
 
 	const [realm, setRealm] = useState<Realm | null>(null)
 
+	const [settings, setSettings] = useState<Settings>(defaultSettings)
+
 	// useEffect(() => {
 	// 	setTheme(colorScheme === 'dark' ? Theme.dark : Theme.light)
 	// 	setColors(colorScheme === 'dark' ? colorsDark : colorsLight)
@@ -61,16 +66,30 @@ export const AppProvider: React.FC = ({ children }) => {
 		}).then((realm) => {
 			setRealm(realm)
 
-			const tokenSetting: any = realm.objectForPrimaryKey('Setting', 'token');
-			const userSetting: any = realm.objectForPrimaryKey('Setting', 'user');
+			const settings = loadSettings(realm)
 
-			if(tokenSetting && userSetting) {
-				const user: User = realm.objectForPrimaryKey('User', parseInt(userSetting.value as string)) as User
-
-				setUser(user)
-				setToken(tokenSetting.value)
+			switch(settings.theme) {
+				case "dark": setTheme(Theme.dark); break;
+				case "light": setTheme(Theme.light); break;
 			}
 
+			if(settings.userId && settings.token) {
+				const _user: User = realm.objectForPrimaryKey('User', settings.userId) as any
+
+				if(_user) {
+					setUser(_user);
+					setToken(settings.token);
+
+					const now = Date.now()
+
+					if(settings.userLastUpdated && (settings.userLastUpdated + 1000 * 60 * 60 * 8) < now)
+						revalidateUser(settings.token, realm)
+					else if(settings.userLastUpdated)
+						console.debug(`[App] Last Session was updated ${ (now - settings.userLastUpdated) / 1000 } seconds ago`)
+				}
+			}
+
+			setSettings(settings)
 			setIsReady(true)
 		})
 
@@ -79,29 +98,73 @@ export const AppProvider: React.FC = ({ children }) => {
 		}
 	}, [])
 
+	const revalidateUser = async (token: string, _realm?: Realm) => {
+		if(!realm && !_realm) return
+		if(!_realm && realm) _realm = realm;
+
+		console.log("[App] Revalidating user, checking session")
+
+		try {
+			const updatedUser = (await getUser(token)).data
+
+			setUser(updatedUser)
+
+			settings.userId = updatedUser.id
+			settings.userLastUpdated = Date.now()
+
+			saveSettings(settings, _realm!)
+
+			_realm?.write(() => {
+				_realm?.create('User', updatedUser, 'modified')
+			})
+
+			console.log("[App] User revalidated, session is valid")
+		} catch (e: any) {
+			if (e.message === 'Unauthenticated.') { 
+				destroySession(_realm)
+			}
+		}
+	}
+
+	const destroySession = (_realm?: Realm) => {
+		if(!realm && !_realm) return
+		if(!_realm && realm) _realm = realm;
+
+		console.log("[App] Destroying Session")
+
+		EventRegister.emitEvent('resetNavigator', 'Welcome')
+
+		const _user = user!
+
+		setToken(null)
+		setUser(null)
+
+		if(_user)
+			_realm?.write(() => {
+				const realmUser = _realm?.objectForPrimaryKey('User', _user.id)
+				if (realmUser) _realm?.delete(realmUser)
+			})
+
+		settings.userLastUpdated = null
+		settings.token = null
+		settings.userId = null
+
+		saveSettings(settings, _realm!)
+	}
+
 	useEffect(() => {
 		if (!customMapStyle) setMapStyles(theme === Theme.dark ? nightMapStyles : lightMapStyles)
 	}, [theme, customMapStyle])
 
 	const loginUser = (user: User, token: string) => {
+		settings.token = token
+		settings.userId = user.id
+		settings.userLastUpdated = Date.now()
+
+		saveSettings(settings, realm!)
 
 		realm?.write(() => {
-			realm?.create(
-				'Setting',
-				{  key: 'token', value: token, valueType: 'string' },
-				'modified'
-			)
-
-			realm?.create(
-				'Setting',
-				{ key: 'user', value: user.id.toString(), valueType: 'number' }
-			)
-
-			realm?.create(
-				'User',
-				user,
-				'modified'
-			)
+			realm?.create('User', user, 'modified')
 		})
 
 		setUser(user)

@@ -22,7 +22,7 @@ import TouchableElement from '../../components/TouchableElement'
 import { login, user } from '../../lib/traewelling/categories/auth'
 import { useApp } from '../../provider/appProvider'
 import { StackActions } from '@react-navigation/native'
-import { host } from '../../temp'
+import { host } from '../../config'
 
 export default function LoginScreen() {
 	const { theme, colors, loginUser } = useApp()
@@ -61,6 +61,8 @@ export default function LoginScreen() {
 				routes: [{ name: 'Launcher' }],
 			})
 		} catch (e) {
+			console.log(e)
+
 			setLoggingIn(false)
 
 			Alert.alert('Anmeldung fehlgeschlagen', 'Bitte überprüfe deine Eingaben und versuche es erneut', [

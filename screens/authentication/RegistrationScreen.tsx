@@ -22,7 +22,7 @@ import TouchableElement from '../../components/TouchableElement'
 import { login, signup, user } from '../../lib/traewelling/categories/auth'
 import { useApp } from '../../provider/appProvider'
 import { StackActions } from '@react-navigation/native';
-import { host } from '../../temp'
+import { host } from '../../config'
 
 export default function RegistrationScreen() {
 	const { theme, colors, loginUser } = useApp()
