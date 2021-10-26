@@ -377,7 +377,7 @@ export default function DepartureScreen() {
 					</>
 				}
 				data={departures ?? []}
-				keyExtractor={(item) => item.tripId}
+				keyExtractor={(item, index) => `${item.tripId}-${index}`}
 				renderItem={renderResultItem}
 			/>
 			<DateTimePickerModal

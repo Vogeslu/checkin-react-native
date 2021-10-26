@@ -129,12 +129,13 @@ const statusDetailScreenStyles = (theme: Theme, colors: BaseColors) => {
             justifyContent: 'center'
         },
         likeButtonInner: {
-            alignItems: 'center'
+            alignItems: 'center',
+            flexDirection: 'row'
         },
         likeText: {
-            marginLeft: 5,
             fontSize: 13,
             color: colors.textSecondary,
+            marginRight: 5
         },
 	})
 }
