@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { NavigationContainerRef } from '@react-navigation/core'
 import React, { useEffect, useRef } from 'react'
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 import LauncherScreen from './screens/LauncherScreen'
 import { Host } from 'react-native-portalize'
 import CheckinScreen from './screens/CheckinScreen'
@@ -18,6 +18,8 @@ import LoginScreen from './screens/authentication/LoginScreen'
 import RegistrationScreen from './screens/authentication/RegistrationScreen'
 import { navigationRef } from './assets/RootNavigation'
 import { EventRegister } from 'react-native-event-listeners'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faTrain } from '@fortawesome/pro-regular-svg-icons'
 
 const Stack = createNativeStackNavigator()
 
@@ -40,7 +42,7 @@ const NavigatorBase = () => {
 	return (
 		<Host>
 			<View style={{ flex: 1, backgroundColor: colors.baseBackground }}>
-				{isReady && (
+				{isReady ? (
 					<NavigationContainer ref={navigationRef}>
 						<Stack.Navigator
 							initialRouteName={token ? 'Launcher' : 'Token'}
@@ -126,7 +128,10 @@ const NavigatorBase = () => {
 							/>
 						</Stack.Navigator>
 					</NavigationContainer>
-				)}
+				) : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+						<FontAwesomeIcon icon={ faTrain } size={ 30 } color={ colors.iconPrimary } />
+						<Text style={{ color: colors.textPrimary, fontSize: 18, marginTop: 10 }}>Check<Text  style={{ color: colors.accentColor }}>In</Text> wird geladen</Text>
+					</View>}
 			</View>
 		</Host>
 	)

@@ -19,6 +19,7 @@ type ContextProps = {
 	user: User | null
 	token: string | null
 	loginUser: (user: User, token: string) => void
+	logoutUser: () => void
 	setTheme: (theme: Theme) => void
 }
 
@@ -31,6 +32,7 @@ export const AppContext = createContext<Partial<ContextProps>>({
 	user: null,
 	token: null,
 	loginUser: (user: User, token: string) => {},
+	logoutUser: () => {},
 	setTheme: (theme: Theme) => {},
 })
 
@@ -171,6 +173,10 @@ export const AppProvider: React.FC = ({ children }) => {
 		setToken(token)
 	}
 
+	const logoutUser = () => {
+		destroySession()
+	}
+
 	const defaultValue = {
 		isReady,
 		theme,
@@ -180,6 +186,7 @@ export const AppProvider: React.FC = ({ children }) => {
 		token,
 		setTheme: (theme: Theme) => setTheme(theme),
 		loginUser: loginUser,
+		logoutUser: logoutUser
 	}
 
 	return <AppContext.Provider value={defaultValue}>{children}</AppContext.Provider>
