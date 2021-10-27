@@ -55,6 +55,10 @@ export async function getDeparturesFromStation(
 	)
 
 	if (error) throw data ?? errorPayload
+
+	if(!Array.isArray(data!.data))
+		data!.data = Object.values(data!.data)
+
 	return data!
 }
 
