@@ -8,6 +8,7 @@ const tripScreenStyles = (theme: Theme, colors: BaseColors) => {
         },
         headerTitleText: {
             color: '#ffffff',
+            textAlign: 'center'
         },
         resultItemContainer: {
             marginBottom: 8,

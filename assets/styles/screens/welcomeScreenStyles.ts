@@ -17,12 +17,16 @@ const welcomeScreenStyles = (theme: Theme, colors: BaseColors) => {
             fontWeight: '700',
             fontSize: 38,
             color: colors.textPrimary,
-            marginBottom: 8
+            marginBottom: 8,
+            textAlign: 'center',
+            alignItems: 'center'
         },
         subtitle: {
             fontWeight: '400',
             fontSize: 16,
-            color: colors.textSecondary
+            color: colors.textSecondary,
+            textAlign: 'center',
+            alignItems: 'center'
         },
         animation: {
             width: '100%',
@@ -54,6 +58,7 @@ const welcomeScreenStyles = (theme: Theme, colors: BaseColors) => {
         innerLoginButton: {
             flex: 1,
             width: '100%',
+            textAlign: 'center',
             alignItems: 'center',
             justifyContent: 'center'
         },

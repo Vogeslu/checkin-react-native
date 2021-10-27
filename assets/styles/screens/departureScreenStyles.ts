@@ -63,6 +63,7 @@ const departureScreenStyles = (theme: Theme, colors: BaseColors) => {
             marginTop: 12,
             color: colors.textPrimary,
             fontSize: 13,
+            textAlign: 'center'
         },
         noLocationContainer: {
             alignItems: 'center',
@@ -132,6 +133,7 @@ const departureScreenStyles = (theme: Theme, colors: BaseColors) => {
         modalItemText: {
             fontSize: 15,
             color: colors.textPrimary,
+            textAlign: 'center'
         },
     })
 }
