@@ -8,6 +8,7 @@ const checkinScreenStyles = (theme: Theme, colors: BaseColors) => {
         },
         headerTitleText: {
             color: '#ffffff',
+            textAlign: 'center'
         },
         headerContainer: {
             backgroundColor: colors.cardBackground,
@@ -62,10 +63,12 @@ const checkinScreenStyles = (theme: Theme, colors: BaseColors) => {
         modalItemText: {
             fontSize: 15,
             color: colors.textPrimary,
+            textAlign: 'center'
         },
         modalItemSubText: {
             fontSize: 13,
             color: colors.textSecondary,
+            textAlign: 'center'
         },
         submitHolder: {
             marginTop: 20,
@@ -83,7 +86,8 @@ const checkinScreenStyles = (theme: Theme, colors: BaseColors) => {
         submitText: {
             color: '#ffffff',
             fontWeight: '600',
-            fontSize: 14
+            fontSize: 14,
+            textAlign: 'center'
         }
     })
 }

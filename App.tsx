@@ -130,7 +130,7 @@ const NavigatorBase = () => {
 					</NavigationContainer>
 				) : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 						<FontAwesomeIcon icon={ faTrain } size={ 30 } color={ colors.iconPrimary } />
-						<Text style={{ color: colors.textPrimary, fontSize: 18, marginTop: 10 }}>Check<Text  style={{ color: colors.accentColor }}>In</Text> wird geladen</Text>
+						<Text style={{ color: colors.textPrimary, fontSize: 18, marginTop: 10, textAlign: 'center' }}>Check<Text  style={{ color: colors.accentColor }}>In</Text> wird geladen</Text>
 					</View>}
 			</View>
 		</Host>

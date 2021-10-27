@@ -50,7 +50,9 @@ const loginScreenStyles = (theme: Theme, colors: BaseColors) => {
         submitText: {
             color: '#ffffff',
             fontWeight: '600',
-            fontSize: 14
+            fontSize: 14,
+            textAlign: 'center',
+            alignItems: 'center'
         },
         linksContainer: {
             alignItems: 'center',
