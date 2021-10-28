@@ -63,7 +63,8 @@ const departureScreenStyles = (theme: Theme, colors: BaseColors) => {
             marginTop: 12,
             color: colors.textPrimary,
             fontSize: 13,
-            textAlign: 'center'
+            textAlign: 'center',
+            width: '100%'
         },
         noLocationContainer: {
             alignItems: 'center',
@@ -121,7 +122,7 @@ const departureScreenStyles = (theme: Theme, colors: BaseColors) => {
         vehicleText: {
             fontSize: 15,
             marginLeft: 4,
-            color: colors.textPrimary
+            color: colors.textPrimary,
         },
         modalItem: {
             alignItems: 'center',
@@ -129,6 +130,7 @@ const departureScreenStyles = (theme: Theme, colors: BaseColors) => {
             paddingHorizontal: 16,
             paddingVertical: 8,
             minHeight: 40,
+            width: '100%'
         },
         modalItemText: {
             fontSize: 15,

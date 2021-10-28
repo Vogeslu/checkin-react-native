@@ -19,14 +19,16 @@ const welcomeScreenStyles = (theme: Theme, colors: BaseColors) => {
             color: colors.textPrimary,
             marginBottom: 8,
             textAlign: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            width: '100%'
         },
         subtitle: {
             fontWeight: '400',
             fontSize: 16,
             color: colors.textSecondary,
             textAlign: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            width: '100%'
         },
         animation: {
             width: '100%',

@@ -52,7 +52,8 @@ const loginScreenStyles = (theme: Theme, colors: BaseColors) => {
             fontWeight: '600',
             fontSize: 14,
             textAlign: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            width: '100%'
         },
         linksContainer: {
             alignItems: 'center',

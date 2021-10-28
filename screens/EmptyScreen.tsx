@@ -10,7 +10,7 @@ export default function EmptyScreen() {
 	return (
 		<View style={{ flex: 1, backgroundColor: colors.baseBackground, alignItems: 'center', justifyContent: 'center', padding: 20 }}>
 			<FontAwesomeIcon icon={faBed} color={ colors.iconPrimary } size={50} />
-			<Text style={{ color: colors.textPrimary, fontSize: 18, marginTop: 20, textAlign: 'center' }}>WIP</Text>
+			<Text style={{ color: colors.textPrimary, fontSize: 18, marginTop: 20, textAlign: 'center', width: '100%' }}>WIP</Text>
 		</View>
 	)
 }
