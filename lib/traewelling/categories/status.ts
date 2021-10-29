@@ -13,8 +13,8 @@ import {
 	V0LatestStationsResponse,
 } from '../types/responseTypes'
 
-export async function getPolyline(token: string, statusID: number): Promise<PolylineResponse> {
-	const { error, data, errorPayload } = await makeRequest<PolylineResponse>(`/v1/polyline/${statusID}`, 'GET', token)
+export async function getPolyline(token: string, statusID: number | number[]): Promise<PolylineResponse> {
+	const { error, data, errorPayload } = await makeRequest<PolylineResponse>(`/v1/polyline/${Array.isArray(statusID) ? statusID.join(',') : statusID}`, 'GET', token)
 
 	if (error) throw data ?? errorPayload
 	return data!
