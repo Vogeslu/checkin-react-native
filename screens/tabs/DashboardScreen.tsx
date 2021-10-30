@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useCallback, useEffect, useState } from 'react'
-import { FlatList, RefreshControl, ScrollView } from 'react-native'
+import { ActivityIndicator, FlatList, RefreshControl, ScrollView, View } from 'react-native'
 import Status from '../../components/status';
 import { dashboard as getDashboard } from '../../lib/traewelling/categories/extra';
 import { Status as StatusType } from '../../lib/traewelling/types/extraTypes';
@@ -39,6 +39,11 @@ export default function DashboardScreen() {
     const renderStatusItem = ({item}: {item: StatusType}) => (
         <Status status={ item } onPress={ () => navigation.navigate('StatusDetail', { status: item }) } />
     )
+
+    if(dashboard == null)
+        return <View style={{ flex: 1, backgroundColor: colors.baseBackground, alignItems: 'center', justifyContent: 'center' }}>
+            <ActivityIndicator color={ colors.accentColor } size="large" />
+        </View>
 
     return (
         <FlatList 
