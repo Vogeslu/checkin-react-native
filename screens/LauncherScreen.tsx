@@ -7,8 +7,9 @@ import LauncherTabBar from '../components/LauncherTabBar'
 import { useApp } from '../provider/appProvider'
 import { host, version } from '../config'
 import EmptyScreen from './EmptyScreen'
-import GlobalDashboardScreen from './tabs/GlobalDashboardScreen'
+import OnTheWayScreen from './tabs/OnTheWayScreen'
 import TouchableElement from '../components/TouchableElement'
+import DashboardScreen from './tabs/DashboardScreen'
 
 const LauncherScreenStyles = StyleSheet.create({
 	profileImageHolder: {
@@ -73,10 +74,10 @@ export default function LauncherScreen() {
 						</View>
 					),
 				}}>
-				<Tab.Screen name="Dashboard" component={GlobalDashboardScreen} options={{ headerTitle: 'Dashboard' }} />
+				<Tab.Screen name="Dashboard" component={DashboardScreen} options={{ headerTitle: 'Dashboard' }} />
 				<Tab.Screen name="TopTraeweller" component={EmptyScreen} options={{ headerTitle: 'Top Träweller' }} />
 				<Tab.Screen name="CheckInPlaceholder" component={EmptyScreen} />
-				<Tab.Screen name="OnTheWay" component={EmptyScreen} options={{ headerTitle: 'Unterwegs' }} />
+				<Tab.Screen name="OnTheWay" component={OnTheWayScreen} options={{ headerTitle: 'Unterwegs' }} />
 				<Tab.Screen name="Statistics" component={EmptyScreen} options={{ headerTitle: 'Statistiken' }} />
 			</Tab.Navigator>
 		</View>

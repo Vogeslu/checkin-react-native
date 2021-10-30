@@ -1,13 +1,13 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useCallback, useEffect, useState } from 'react'
-import { FlatList, RefreshControl, ScrollView } from 'react-native'
+import { ActivityIndicator, FlatList, RefreshControl, ScrollView, View } from 'react-native'
 import Status from '../../components/status';
-import { dashboardGlobal } from '../../lib/traewelling/categories/extra';
+import { dashboard as getDashboard } from '../../lib/traewelling/categories/extra';
 import { Status as StatusType } from '../../lib/traewelling/types/extraTypes';
 import { DashboardResponse } from '../../lib/traewelling/types/responseTypes';
 import { useApp } from '../../provider/appProvider';
 
-export default function GlobalDashboardScreen() {
+export default function DashboardScreen() {
 	const { theme, colors, token } = useApp()
 
 	const [refreshing, setRefreshing] = useState(false)
@@ -21,7 +21,7 @@ export default function GlobalDashboardScreen() {
 
     const loadDashboard = async () => {
         try {
-            const response = await dashboardGlobal(token!)
+            const response = await getDashboard(token!)
             setDashboard(response)
         } catch(e) {
             console.log(e)
@@ -39,6 +39,11 @@ export default function GlobalDashboardScreen() {
     const renderStatusItem = ({item}: {item: StatusType}) => (
         <Status status={ item } onPress={ () => navigation.navigate('StatusDetail', { status: item }) } />
     )
+
+    if(dashboard == null)
+        return <View style={{ flex: 1, backgroundColor: colors.baseBackground, alignItems: 'center', justifyContent: 'center' }}>
+            <ActivityIndicator color={ colors.accentColor } size="large" />
+        </View>
 
     return (
         <FlatList 
