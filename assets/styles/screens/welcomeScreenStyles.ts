@@ -67,7 +67,9 @@ const welcomeScreenStyles = (theme: Theme, colors: BaseColors) => {
         loginButtonText: {
             color: theme === Theme.dark ? '#171717' : '#D4D4D4',
             fontSize: 16,
-            fontWeight: '600'
+            fontWeight: '600',
+            textAlign: 'center',
+            width: '100%'
         },
         orContainer: {
             marginVertical: 30,
