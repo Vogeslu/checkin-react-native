@@ -23,6 +23,7 @@ import { login, signup, user } from '../../lib/traewelling/categories/auth'
 import { useApp } from '../../provider/appProvider'
 import { StackActions } from '@react-navigation/native';
 import { host } from '../../config'
+import { faEye, faEyeSlash } from '@fortawesome/pro-solid-svg-icons'
 
 export default function RegistrationScreen() {
 	const { theme, colors, loginUser } = useApp()
@@ -34,6 +35,9 @@ export default function RegistrationScreen() {
 
 	const [password, setPassword] = useState("")
 	const [password2, setPassword2] = useState("")
+	
+	const [revealPassword, setRevealPassword] = useState(false)
+	const [revealPassword2, setRevealPassword2] = useState(false)
 
 	const usernameRef = useRef<TextInput>(null)
 	const displayNameRef = useRef<TextInput>(null)
@@ -152,19 +156,27 @@ export default function RegistrationScreen() {
 							returnKeyType="next"
 							onSubmitEditing={() => passwordRef.current?.focus()}
 						/>
-						<TextInput
-							value={password}
-							onChangeText={setPassword}
-							style={styles.loginField}
-							placeholder="Passwort"
-							placeholderTextColor={colors.textSecondary}
-							autoCompleteType="password"
-							secureTextEntry={true}
-							textContentType="newPassword"
-							ref={passwordRef}
-							returnKeyType="next"
-							onSubmitEditing={() => password2Ref.current?.focus()}
-						/>
+						<View style={styles.loginFieldContainer}>
+							<TextInput
+								value={password}
+								onChangeText={setPassword}
+								style={styles.loginField}
+								placeholder="Passwort"
+								placeholderTextColor={colors.textSecondary}
+								autoCompleteType="password"
+								secureTextEntry={!revealPassword}
+								textContentType="newPassword"
+								ref={passwordRef}
+								returnKeyType="next"
+								onSubmitEditing={() => password2Ref.current?.focus()}
+							/>
+							<TouchableElement
+								onPress={() => setRevealPassword(current => !current)}
+								style={styles.revealPasswordField}>
+									<FontAwesomeIcon icon={revealPassword ? faEyeSlash : faEye} color={colors.iconSecondary} />
+								</TouchableElement>
+						</View>
+						<View style={styles.loginFieldContainer}>
 						<TextInput
 							value={password2}
 							onChangeText={setPassword2}
@@ -172,10 +184,16 @@ export default function RegistrationScreen() {
 							placeholder="Passwort bestätigen"
 							placeholderTextColor={colors.textSecondary}
 							autoCompleteType="password"
-							secureTextEntry={true}
+							secureTextEntry={!revealPassword2}
 							textContentType="newPassword"
 							ref={password2Ref}
 						/>
+						<TouchableElement
+							onPress={() => setRevealPassword2(current => !current)}
+							style={styles.revealPasswordField}>
+								<FontAwesomeIcon icon={revealPassword2 ? faEyeSlash : faEye} color={colors.iconSecondary} />
+							</TouchableElement>
+					</View>
 						<TouchableElement
 							onPress={onPressRegistration}
 							style={{ ...styles.submitHolder, opacity: canRegister ? 1 : 0.7 }}

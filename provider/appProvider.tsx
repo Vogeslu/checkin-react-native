@@ -70,24 +70,31 @@ export const AppProvider: React.FC = ({ children }) => {
 
 			const settings = loadSettings(realm)
 
-			switch(settings.theme) {
-				case "dark": setTheme(Theme.dark); break;
-				case "light": setTheme(Theme.light); break;
+			switch (settings.theme) {
+				case 'dark':
+					setTheme(Theme.dark)
+					break
+				case 'light':
+					setTheme(Theme.light)
+					break
 			}
 
-			if(settings.userId && settings.token) {
-				const _user: User = realm.objectForPrimaryKey('User', settings.userId) as any
+			if (settings.userId && settings.token) {
+				console.log(realm.objectForPrimaryKey('User', settings.userId))
+				const _user: string = (realm.objectForPrimaryKey('User', settings.userId) as any).data
 
-				if(_user) {
-					setUser(_user);
-					setToken(settings.token);
+				if (_user) {
+					setUser(JSON.parse(_user))
+					setToken(settings.token)
 
 					const now = Date.now()
 
-					if(settings.userLastUpdated && (settings.userLastUpdated + 1000 * 60 * 60 * 8) < now)
+					if (settings.userLastUpdated && settings.userLastUpdated + 1000 * 60 * 60 * 8 < now)
 						revalidateUser(settings.token, realm)
-					else if(settings.userLastUpdated)
-						console.debug(`[App] Last Session was updated ${ (now - settings.userLastUpdated) / 1000 } seconds ago`)
+					else if (settings.userLastUpdated)
+						console.debug(
+							`[App] Last Session was updated ${(now - settings.userLastUpdated) / 1000} seconds ago`
+						)
 				}
 			}
 
@@ -101,10 +108,10 @@ export const AppProvider: React.FC = ({ children }) => {
 	}, [])
 
 	const revalidateUser = async (token: string, _realm?: Realm) => {
-		if(!realm && !_realm) return
-		if(!_realm && realm) _realm = realm;
+		if (!realm && !_realm) return
+		if (!_realm && realm) _realm = realm
 
-		console.log("[App] Revalidating user, checking session")
+		console.log('[App] Revalidating user, checking session')
 
 		try {
 			const updatedUser = (await getUser(token)).data
@@ -117,22 +124,29 @@ export const AppProvider: React.FC = ({ children }) => {
 			saveSettings(settings, _realm!)
 
 			_realm?.write(() => {
-				_realm?.create('User', updatedUser, 'modified')
+				_realm?.create(
+					'User',
+					{
+						id: updatedUser.id,
+						data: JSON.stringify(updatedUser),
+					},
+					'modified'
+				)
 			})
 
-			console.log("[App] User revalidated, session is valid")
+			console.log('[App] User revalidated, session is valid')
 		} catch (e: any) {
-			if (e.message === 'Unauthenticated.') { 
+			if (e.message === 'Unauthenticated.') {
 				destroySession(_realm)
 			}
 		}
 	}
 
 	const destroySession = (_realm?: Realm) => {
-		if(!realm && !_realm) return
-		if(!_realm && realm) _realm = realm;
+		if (!realm && !_realm) return
+		if (!_realm && realm) _realm = realm
 
-		console.log("[App] Destroying Session")
+		console.log('[App] Destroying Session')
 
 		EventRegister.emitEvent('resetNavigator', 'Welcome')
 
@@ -141,7 +155,7 @@ export const AppProvider: React.FC = ({ children }) => {
 		setToken(null)
 		setUser(null)
 
-		if(_user)
+		if (_user)
 			_realm?.write(() => {
 				const realmUser = _realm?.objectForPrimaryKey('User', _user.id)
 				if (realmUser) _realm?.delete(realmUser)
@@ -166,7 +180,14 @@ export const AppProvider: React.FC = ({ children }) => {
 		saveSettings(settings, realm!)
 
 		realm?.write(() => {
-			realm?.create('User', user, 'modified')
+			realm?.create(
+				'User',
+				{
+					id: user.id,
+					data: JSON.stringify(user),
+				},
+				'modified'
+			)
 		})
 
 		setUser(user)
@@ -186,7 +207,7 @@ export const AppProvider: React.FC = ({ children }) => {
 		token,
 		setTheme: (theme: Theme) => setTheme(theme),
 		loginUser: loginUser,
-		logoutUser: logoutUser
+		logoutUser: logoutUser,
 	}
 
 	return <AppContext.Provider value={defaultValue}>{children}</AppContext.Provider>

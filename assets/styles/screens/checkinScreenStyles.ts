@@ -84,14 +84,14 @@ const checkinScreenStyles = (theme: Theme, colors: BaseColors) => {
             paddingHorizontal: 8,
             alignItems: 'center',
             justifyContent: 'center',
-            flexDirection: 'row'
+            flexDirection: 'row',
+            width: '100%'
         },
         submitText: {
             color: '#ffffff',
             fontWeight: '600',
             fontSize: 14,
             textAlign: 'center',
-            width: '100%'
         }
     })
 }

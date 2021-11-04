@@ -24,6 +24,17 @@ const loginScreenStyles = (theme: Theme, colors: BaseColors) => {
             width: '100%',
             paddingHorizontal: 16
         },
+        loginFieldContainer: {
+            width: '100%',
+            position: 'relative'
+        },
+        revealPasswordField: {
+            position: 'absolute',
+            height: '100%',
+            width: 30,
+            justifyContent: 'center',
+            right: 0
+        },
         loginField: {
             width: '100%',
             marginVertical: 8,
@@ -45,15 +56,13 @@ const loginScreenStyles = (theme: Theme, colors: BaseColors) => {
             paddingHorizontal: 8,
             alignItems: 'center',
             justifyContent: 'center',
-            flexDirection: 'row'
+            flexDirection: 'row',
+            width: '100%'
         },
         submitText: {
             color: '#ffffff',
             fontWeight: '600',
             fontSize: 14,
-            textAlign: 'center',
-            alignItems: 'center',
-            width: '100%'
         },
         linksContainer: {
             alignItems: 'center',

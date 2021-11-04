@@ -77,8 +77,8 @@ export type NotificationStatus = {
 			ibnr: number
 			rilIdentifier?: any
 			name: string
-			latitude: number
-			longitude: number
+			latitude: number | string
+			longitude: number | string
 		}
 		destination: {
 			id: number

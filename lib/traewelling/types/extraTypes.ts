@@ -99,8 +99,8 @@ export type Event = {
 export type Station = {
 	id: number
 	name: string
-	latitude: number
-	longitude: number
+	latitude: number | string
+	longitude: number | string
 	ibnr: number
 	rilIdentifier?: any
 }

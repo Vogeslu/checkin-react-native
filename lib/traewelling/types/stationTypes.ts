@@ -4,8 +4,8 @@ export type QueryStation = {
 	name: string
 	ibnr: number | string
 	id?: number
-	latitude?: number
-	longitude?: number
+	latitude?: number | string
+	longitude?: number | string
 	rilIdentifier?: any
 }
 
@@ -18,8 +18,8 @@ export type Departure = {
 		location: {
 			type: string
 			id: string
-			latitude: number
-			longitude: number
+			latitude: number | string
+			longitude: number | string
 		}
 		products: {
 			nationalExpress: boolean

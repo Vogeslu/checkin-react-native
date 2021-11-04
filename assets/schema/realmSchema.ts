@@ -1,77 +1,10 @@
-export class Station {
-	public static schema: Realm.ObjectSchema = {
-		name: 'Station',
-		primaryKey: 'id',
-		properties: {
-			id: 'int',
-			name: 'string',
-			ibnr: 'int',
-			latitude: 'int?',
-			longitude: 'int?',
-			rilIdentifier: 'string?',
-		},
-	}
-
-	public id: number
-	public name: string
-	public ibnr: number
-	public latitude?: number | null
-	public longitude?: number | null
-	public rilIdentifier?: string | null
-
-    constructor(id: number, name: string, ibnr: number) {
-        this.id = id
-        this.name = name
-        this.ibnr = ibnr
-    }
-}
-
-export class User {
-	public static schema: Realm.ObjectSchema = {
-        name: 'User',
-        primaryKey: 'id',
-        properties: {
-            id: 'int',
-            displayName: 'string',
-            username: 'string',
-            trainDistance: 'int',
-            trainDuration: 'int',
-            trainSpeed: 'int',
-            points: 'int',
-            twitterUrl: 'string?',
-            mastodonUrl: 'string?',
-            privateProfile: 'bool',
-            role: 'int',
-            home: 'Station?',
-            private: 'bool',
-            preventIndex: 'bool?',
-            dbl: 'int',
-            language: 'string?',
-        },
-	}
-
-	public id: number
-    public displayName: string
-    public username: string
-    public trainDistance: number = 0
-    public trainDuration: number = 0
-    public trainSpeed: number = 0
-    public points: number = 0
-    public twitterUrl?: string | null
-    public mastodonUrl?: string | null
-    public privateProfile: boolean = false
-    public userInvisibleToMe?: boolean = false
-    public home?: Station | null
-    public muted?: boolean | null
-    public following?: boolean | null
-    public followPending?: boolean | null
-    public preventIndex?: boolean | null
-
-    constructor(id: number, displayName: string, username: string) {
-        this.id = id
-        this.displayName = displayName
-        this.username = username
-    }
+const userSchema: Realm.ObjectSchema = {
+    name: 'User',
+    primaryKey: 'id',
+    properties: {
+        id: 'int',
+        data: 'string'
+    },
 }
 
 export class Setting {
@@ -117,5 +50,5 @@ export class Setting {
     }
 }
 
-export default [User.schema, Station.schema, Setting.schema]
-export const schemaVersion = 1
+export default [userSchema, Setting.schema]
+export const schemaVersion = 5

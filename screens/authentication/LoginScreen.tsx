@@ -23,6 +23,7 @@ import { login, user } from '../../lib/traewelling/categories/auth'
 import { useApp } from '../../provider/appProvider'
 import { StackActions } from '@react-navigation/native'
 import { host } from '../../config'
+import { faEye, faEyeSlash } from '@fortawesome/pro-solid-svg-icons'
 
 export default function LoginScreen() {
 	const { theme, colors, loginUser } = useApp()
@@ -30,6 +31,11 @@ export default function LoginScreen() {
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+
+	const usernameEmailRef = useRef<TextInput>(null)
+	const passwordRef = useRef<TextInput>(null)
+
+	const [revealPassword, setRevealPassword] = useState(false)
 
 	const [loggingIn, setLoggingIn] = useState(false)
 
@@ -61,7 +67,7 @@ export default function LoginScreen() {
 				routes: [{ name: 'Launcher' }],
 			})
 		} catch (e) {
-			console.log(e)
+			console.error(e)
 
 			setLoggingIn(false)
 
@@ -96,17 +102,28 @@ export default function LoginScreen() {
 							autoCompleteType="email"
 							keyboardType="email-address"
 							textContentType="emailAddress"
+							ref={usernameEmailRef}
+							returnKeyType="next"
+							onSubmitEditing={() => passwordRef.current?.focus()}
 						/>
-						<TextInput
-							value={password}
-							onChangeText={setPassword}
-							style={styles.loginField}
-							placeholder="Passwort"
-							placeholderTextColor={colors.textSecondary}
-							autoCompleteType="password"
-							secureTextEntry={true}
-							textContentType="password"
-						/>
+						<View style={styles.loginFieldContainer}>
+							<TextInput
+								value={password}
+								onChangeText={setPassword}
+								style={{ ...styles.loginField, paddingRight: 46 }}
+								placeholder="Passwort"
+								placeholderTextColor={colors.textSecondary}
+								autoCompleteType="password"
+								secureTextEntry={!revealPassword}
+								textContentType='password'
+								ref={passwordRef}
+							/>
+							<TouchableElement
+								onPress={() => setRevealPassword(current => !current)}
+								style={styles.revealPasswordField}>
+									<FontAwesomeIcon icon={revealPassword ? faEyeSlash : faEye} color={colors.iconSecondary} />
+								</TouchableElement>
+						</View>
 						<TouchableElement
 							onPress={onPressLogin}
 							style={{ ...styles.submitHolder, opacity: canLogin ? 1 : 0.7 }}

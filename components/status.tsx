@@ -139,7 +139,7 @@ const Status: React.FC<StatusProps> = ({ status, onPress }) => {
 										<Text style={styles.dataTextBlue}>{status.event.name}</Text>
 									</View>
 								)}
-								{status.body.length > 0 && (
+								{status.body?.length > 0 && (
 									<View style={styles.dataItem}>
 										<FontAwesomeIcon icon={faQuoteLeft} size={13} color={colors.iconSecondary} />
 										<Text style={styles.dataText}>{status.body}</Text>

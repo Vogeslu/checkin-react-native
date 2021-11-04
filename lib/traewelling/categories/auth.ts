@@ -30,9 +30,10 @@ import { SimpleResponse, TokenResponse, UserResponse } from "../types/responseTy
  * @param password 
  * @returns TokenResponse
  */
-export async function login(email: string, password: string): Promise<TokenResponse> {
+export async function login(usernameEmail: string, password: string): Promise<TokenResponse> {
     const { error, data, errorPayload } = await makeRequest<TokenResponse>('/v1/auth/login', 'POST', null, {
-        email: email,
+        email: usernameEmail,
+        login: usernameEmail,
         password: password
     }, true)
 
