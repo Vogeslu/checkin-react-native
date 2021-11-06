@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/core'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { ActivityIndicator, Dimensions, FlatList, RefreshControl, ScrollView, Text, View } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps'
-import Status from '../../components/status'
+import Status from '../../components/Status'
 import { dashboardGlobal } from '../../lib/traewelling/categories/extra'
 import { getPolyline } from '../../lib/traewelling/categories/status'
 import { Polyline as PolylineType, Status as StatusType } from '../../lib/traewelling/types/extraTypes'
@@ -36,7 +36,6 @@ export default function OnTheWayScreen() {
 			const polylinesResponse = await getPolyline(token!, statusIds)
 			setPolylines(polylinesResponse.data)
 		} catch (e) {
-			console.log(e)
 		}
 	}
 

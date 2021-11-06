@@ -123,3 +123,11 @@ export enum StatusVisibility {
 }
 
 export type Polyline = [number, number]
+
+export type LeaderboardEntry = {
+	username: string,
+	trainDuration: number
+	trainDistance: number
+	trainSpeed: number
+	points: number
+}

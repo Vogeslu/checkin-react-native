@@ -3,6 +3,32 @@ import { Business, StatusVisibility } from '../types/extraTypes'
 import { DashboardResponse, DataResponse, LeaderboardResponse, NotificationResponse, SimpleResponse } from '../types/responseTypes'
 
 /**
+ * Returns global leaderboard
+ *
+ * @param token
+ * @returns
+ */
+ export async function leaderboardGlobal(token: string): Promise<LeaderboardResponse> {
+	const { error, data, errorPayload } = await makeRequest<LeaderboardResponse>('/v1/leaderboard', 'GET', token)
+
+	if (error) throw data ?? errorPayload
+	return data!
+}
+
+/**
+ * Returns leaderboard by distance
+ *
+ * @param token
+ * @returns
+ */
+ export async function leaderboardByDistance(token: string): Promise<LeaderboardResponse> {
+	const { error, data, errorPayload } = await makeRequest<LeaderboardResponse>('/v1/leaderboard/distance', 'GET', token)
+
+	if (error) throw data ?? errorPayload
+	return data!
+}
+
+/**
  * Returns leaderboard of friends
  *
  * @param token

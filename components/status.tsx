@@ -18,6 +18,7 @@ import statusStyles from '../assets/styles/components/statusStyles'
 import { useApp } from '../provider/appProvider'
 import { Theme } from '../assets/styles/stylesBase'
 import TouchableElement from './TouchableElement'
+import { visibilityItems } from '../lib/componentTypes'
 
 type StatusProps = {
 	status: StatusType
@@ -183,7 +184,7 @@ const Status: React.FC<StatusProps> = ({ status, onPress }) => {
 							</View>
 						</TouchableElement>
 						<View style={styles.bottomRight}>
-							<FontAwesomeIcon icon={faGlobeAmericas} size={13} color={colors.iconPrimary} />
+							<FontAwesomeIcon icon={(status.visibility < visibilityItems.length ? visibilityItems[status.visibility] : visibilityItems[0]).icon} size={13} color={colors.iconPrimary} />
 							<View style={styles.bottomRightText}>
 								<View style={styles.bottomRightTextHolder}>
 									<View>

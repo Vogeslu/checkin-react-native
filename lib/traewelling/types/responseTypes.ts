@@ -1,4 +1,4 @@
-import { Links, Meta, Polyline, Status, Stopover, User } from "./extraTypes"
+import { LeaderboardEntry, Links, Meta, Polyline, Status, Stopover, User } from "./extraTypes"
 import { Notification } from "./notificationTypes"
 import { CheckinStatus, Departure, QueryStation, Trip } from "./stationTypes"
 
@@ -18,23 +18,16 @@ export type ErrorResponse = Response & {
 }
 
 export type TokenResponse = Response & {
-	token: string
-	expires_at: string
-	message?: string
+	token?: string,
+	data?: {
+		token: string
+		expires_at: string
+		message?: string
+	}
 }
 
 export type UserResponse = Response & {
 	data: User
-}
-
-export type LeaderboardResponse = Response & {
-	data: {
-		username: string
-		trainDuration: number
-		trainDistance: number
-		trainSpeed: number
-		points: number
-	}[]
 }
 
 export type DashboardResponse = Response & {
@@ -62,3 +55,5 @@ export type CheckinResponse = DataResponse<{ status: CheckinStatus }>
 export type PolylineResponse = DataResponse<{ [key: string]: Polyline[] }>
 
 export type StopoverResponse = DataResponse<{ [key: string]: Stopover[] }>
+
+export type LeaderboardResponse = DataResponse<LeaderboardEntry[]>

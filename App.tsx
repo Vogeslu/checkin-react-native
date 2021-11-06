@@ -92,8 +92,8 @@ const NavigatorBase = () => {
 								component={LocationModalScreen}
 								options={{
 									title: 'Von ...',
-									headerStyle: { backgroundColor: colors.cardBackground },
-									headerTintColor: colors.textPrimary,
+									headerStyle: { backgroundColor: '#C72730' },
+									headerTintColor: '#ffffff',
 									headerTitleStyle: { fontSize: 18 },
 								}}
 							/>

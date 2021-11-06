@@ -33,13 +33,15 @@ const launcherScreenStyles = (theme: Theme, colors: BaseColors) => {
 		},
         closeContainer: {
             position: 'absolute',
-            top: 6,
-            right: 6,
-            width: 30,
-            height: 30,
-            alignItems: 'center',
-            justifyContent: 'center',
+            top: 0,
+            right: 0,
             zIndex: 1
+        },
+        closeInner: {
+            width: 36,
+            height: 36,
+            alignItems: 'center',
+            justifyContent: 'center'
         },
         cardProfileRow: {
             flexDirection: 'row',
@@ -58,11 +60,15 @@ const launcherScreenStyles = (theme: Theme, colors: BaseColors) => {
         cardProfileDisplayName: {
             fontSize: 16,
             color: colors.textPrimary,
-            fontWeight: '500'
+            fontWeight: '500',
+            textAlign: 'left',
+            width: '100%'
         },
         cardProfileUsername: {
             fontSize: 12,
-            color: colors.textSecondary
+            color: colors.textSecondary,
+            textAlign: 'left',
+            width: '100%'
         },
         cardItem: {
             flexDirection: 'row',
@@ -79,12 +85,12 @@ const launcherScreenStyles = (theme: Theme, colors: BaseColors) => {
             flexDirection: 'row',
             borderTopColor: colors.cardBorder,
             borderTopWidth: 1,
-            height: 38,
+            height: 56,
             marginTop: 16
         },
         cardBottomItemHolder: {
-            height: 38,
-            minWidth: 38,
+            height: 56,
+            minWidth: 56,
             flex: 0,
         },
         cardBottomItem: {
@@ -95,8 +101,8 @@ const launcherScreenStyles = (theme: Theme, colors: BaseColors) => {
             height: '100%',
         },
         cardBottomItemText: {
-            marginLeft: 8,
-            fontSize: 12,
+            marginLeft: 12,
+            fontSize: 14,
             color: colors.textSecondary
         }
 	})

@@ -25,66 +25,13 @@ import { getStatus } from '../lib/traewelling/categories/status'
 import { useApp } from '../provider/appProvider'
 import checkinScreenStyles from '../assets/styles/screens/checkinScreenStyles'
 import TouchableElement from '../components/TouchableElement'
+import { businessItems, PickerItem, visibilityItems } from '../lib/componentTypes'
 
 type CheckinScreenParamList = {
 	Checkin: { departure: Departure; stopover: Stopover }
 }
 
 type Props = NativeStackScreenProps<CheckinScreenParamList, 'Checkin'>
-
-type PickerItem = {
-	label: string
-	extraLabel?: string
-	value: number
-	icon: IconDefinition
-}
-
-const businessItems: PickerItem[] = [
-	{
-		label: 'Privat',
-		value: 0,
-		icon: faUser,
-	},
-	{
-		label: 'Geschäftlich',
-		extraLabel: 'Dienstfahrten',
-		value: 1,
-		icon: faBriefcase,
-	},
-	{
-		label: 'Arbeitsweg',
-		extraLabel: 'Weg zwischen Wohnort und Arbeitsplatz',
-		value: 2,
-		icon: faBuilding,
-	},
-]
-
-const visibilityItems: PickerItem[] = [
-	{
-		label: 'Öffentlich',
-		extraLabel: 'Sichtbar für alle, angezeigt im Dashboard, bei Events, etc.',
-		value: 0,
-		icon: faGlobeAmericas,
-	},
-	{
-		label: 'Ungelistet',
-		extraLabel: 'Sichtbar für alle, nur im Profil aufrufbar',
-		value: 1,
-		icon: faLockOpen,
-	},
-	{
-		label: 'Nur für Follower',
-		extraLabel: 'Nur für (akzeptierte) Follower sichtbar',
-		value: 2,
-		icon: faUserFriends,
-	},
-	{
-		label: 'Privat',
-		extraLabel: 'Nur für dich sichtbar',
-		value: 3,
-		icon: faLock,
-	},
-]
 
 export default function CheckinScreen({ route, navigation }: Props) {
 	const { theme, colors, token, user } = useApp()

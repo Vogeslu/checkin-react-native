@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useCallback, useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, RefreshControl, ScrollView, View } from 'react-native'
-import Status from '../../components/status';
+import Status from '../../components/Status';
 import { dashboard as getDashboard } from '../../lib/traewelling/categories/extra';
 import { Status as StatusType } from '../../lib/traewelling/types/extraTypes';
 import { DashboardResponse } from '../../lib/traewelling/types/responseTypes';
@@ -24,7 +24,6 @@ export default function DashboardScreen() {
             const response = await getDashboard(token!)
             setDashboard(response)
         } catch(e) {
-            console.log(e)
         }
     }
 

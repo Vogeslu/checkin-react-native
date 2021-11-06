@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { Alert, Animated, Image, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { Alert, Animated, Image, StatusBar, StatusBarIOS, StyleSheet, Text, View } from 'react-native'
 import SystemNavigationBar from 'react-native-system-navigation-bar'
 import { Theme } from '../assets/styles/stylesBase'
 import LauncherTabBar from '../components/LauncherTabBar'
@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCog, faMoon, faSave, faSun, faUser } from '@fortawesome/pro-solid-svg-icons'
 import { faTimes, faSignOut } from '@fortawesome/pro-regular-svg-icons'
 import launcherScreenStyles from '../assets/styles/screens/launcherScreenStyles'
+import TopTraewellerScreen from './tabs/TopTraewellerScreen'
 
 const Tab = createBottomTabNavigator()
 
@@ -112,7 +113,7 @@ export default function LauncherScreen() {
 					),
 				}}>
 				<Tab.Screen name="Dashboard" component={DashboardScreen} options={{ headerTitle: 'Dashboard' }} />
-				<Tab.Screen name="TopTraeweller" component={EmptyScreen} options={{ headerTitle: 'Top Träweller' }} />
+				<Tab.Screen name="TopTraeweller" component={TopTraewellerScreen} options={{ headerTitle: 'Top Träweller' }} />
 				<Tab.Screen name="CheckInPlaceholder" component={EmptyScreen} />
 				<Tab.Screen name="OnTheWay" component={OnTheWayScreen} options={{ headerTitle: 'Unterwegs' }} />
 				<Tab.Screen name="Statistics" component={EmptyScreen} options={{ headerTitle: 'Statistiken' }} />
@@ -122,7 +123,9 @@ export default function LauncherScreen() {
 				pointerEvents={overlayerOpened ? 'auto' : 'none'}>
 				<Animated.View style={{ ...styles.overlayCard, transform: [{ scale: cardScale }] }}>
 					<TouchableElement style={styles.closeContainer} onPress={closeOverlayer}>
-						<FontAwesomeIcon icon={faTimes} color={colors.iconSecondary} />
+						<View style={ styles.closeInner }>
+							<FontAwesomeIcon icon={faTimes} color={colors.iconSecondary} size={18} />
+						</View>
 					</TouchableElement>
 					<View style={styles.cardProfileRow}>
 						<Image
@@ -181,7 +184,6 @@ export default function LauncherScreen() {
 								<FontAwesomeIcon
 									icon={theme === Theme.dark ? faMoon : faSun}
 									color={colors.iconSecondary}
-									size={14}
 								/>
 								<Text style={styles.cardBottomItemText}>
 									{theme === Theme.dark ? 'Darkmode' : 'Lightmode'}
@@ -194,7 +196,7 @@ export default function LauncherScreen() {
 							pressIn={false}
 							backgroundColor={colors.cardTouch}>
 							<View style={styles.cardBottomItem}>
-								<FontAwesomeIcon icon={faSignOut} color={colors.iconSecondary} size={14} />
+								<FontAwesomeIcon icon={faSignOut} color={colors.iconSecondary} size={16} />
 							</View>
 						</TouchableElement>
 					</View>

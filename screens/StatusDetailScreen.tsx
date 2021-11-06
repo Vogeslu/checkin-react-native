@@ -20,6 +20,7 @@ import { useApp } from '../provider/appProvider'
 import statusDetailScreenStyles from '../assets/styles/screens/statusDetailScreenStyles'
 import { Theme } from '../assets/styles/stylesBase'
 import TouchableElement from '../components/TouchableElement'
+import { visibilityItems } from '../lib/componentTypes'
 
 type StatusDetailScreenParamList = {
 	StatusDetail: { status: Status }
@@ -322,7 +323,7 @@ export default function StatusDetailScreen({ route, navigation }: Props) {
 						</View>
 					</TouchableElement>
 					<View style={styles.bottomRight}>
-						<FontAwesomeIcon icon={faGlobeAmericas} size={13} color={colors.iconPrimary} />
+						<FontAwesomeIcon icon={(status.visibility < visibilityItems.length ? visibilityItems[status.visibility] : visibilityItems[0]).icon} size={13} color={colors.iconPrimary} />
 						<View style={styles.bottomRightText}>
 							<View style={styles.bottomRightTextHolder}>
 								<TouchableElement

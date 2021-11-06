@@ -58,9 +58,14 @@ export default function LoginScreen() {
 
 		try {
 			const loginResponse = await login(email, password)
-			const userResponse = await user(loginResponse.token)
 
-			loginUser(userResponse.data, loginResponse.token)
+			console.log(loginResponse)
+
+			const token = loginResponse.token ? loginResponse.token : loginResponse.data!.token;
+
+			const userResponse = await user(token)
+
+			loginUser(userResponse.data, token)
 
 			navigation.reset({
 				index: 0,
