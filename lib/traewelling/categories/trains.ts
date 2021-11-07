@@ -75,7 +75,7 @@ export async function getTrip(token: string, tripID: string, lineName: string, s
 
 export async function checkin(
 	token: string,
-	tripID: string,
+	tripId: string,
 	lineName: string,
 	start: number,
 	destination: number,
@@ -89,7 +89,7 @@ export async function checkin(
 	toot = false
 ): Promise<CheckinResponse> {
 	const { error, data, errorPayload } = await makeRequest<CheckinResponse>('/v1/trains/checkin', 'POST', token, {
-		tripID: tripID,
+		tripId: tripId,
 		lineName: lineName,
 		start: start,
 		destination: destination,
