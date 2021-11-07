@@ -64,7 +64,7 @@ export async function getDeparturesFromStation(
 
 export async function getTrip(token: string, tripId: string, lineName: string, start: number): Promise<TripResponse> {
 	const { error, data, errorPayload } = await makeRequest<TripResponse>(
-		`/v1/trains/trip?tripId=${tripId}&lineName=${lineName}&start=${start}`,
+		`/v1/trains/trip?tripId=${tripId}&tripID=${tripId}&lineName=${lineName}&start=${start}`,
 		'GET',
 		token
 	)
@@ -75,7 +75,7 @@ export async function getTrip(token: string, tripId: string, lineName: string, s
 
 export async function checkin(
 	token: string,
-	tripID: string,
+	tripId: string,
 	lineName: string,
 	start: number,
 	destination: number,
@@ -89,7 +89,8 @@ export async function checkin(
 	toot = false
 ): Promise<CheckinResponse> {
 	const { error, data, errorPayload } = await makeRequest<CheckinResponse>('/v1/trains/checkin', 'POST', token, {
-		tripID: tripID,
+		tripId: tripId,
+		tripID: tripId,
 		lineName: lineName,
 		start: start,
 		destination: destination,
