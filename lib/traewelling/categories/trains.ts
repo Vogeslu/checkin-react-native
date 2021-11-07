@@ -62,9 +62,9 @@ export async function getDeparturesFromStation(
 	return data!
 }
 
-export async function getTrip(token: string, tripID: string, lineName: string, start: number): Promise<TripResponse> {
+export async function getTrip(token: string, tripId: string, lineName: string, start: number): Promise<TripResponse> {
 	const { error, data, errorPayload } = await makeRequest<TripResponse>(
-		`/v1/trains/trip?tripID=${tripID}&lineName=${lineName}&start=${start}`,
+		`/v1/trains/trip?tripId=${tripId}&lineName=${lineName}&start=${start}`,
 		'GET',
 		token
 	)
